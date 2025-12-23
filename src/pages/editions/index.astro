@@ -3,10 +3,24 @@ import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/elements/PageHeader.astro";
 import { getCollection } from "astro:content";
 import EditionCard from "@/components/editions/EditionCard.astro";
+import { getEditionAssetPhotos } from "@/utils/editionAssets";
 
 const editions = (await getCollection("edition"))
   .slice()
   .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
+
+const editionCards = await Promise.all(
+  editions.map(async (e) => {
+    const year = e.data.year;
+    const cmsPhotos = (Array.isArray(e.data.photos) ? e.data.photos : []).filter(Boolean);
+    const assetPhotos = await getEditionAssetPhotos(year);
+    const coverImage = e.data.coverImage || cmsPhotos[0] || assetPhotos[0];
+    const subtitle =
+      e.data.description ||
+      (coverImage ? "Galerie photos" : "PDFs (photos à venir)");
+    return { year, coverImage, subtitle };
+  }),
+);
 ---
 
 <Layout title="Éditions">
@@ -24,12 +38,12 @@ const editions = (await getCollection("edition"))
           </p>
         ) : (
           <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {editions.map((edition) => (
+            {editionCards.map((card) => (
               <EditionCard
-                year={edition.data.year}
-                href={`/editions/${edition.data.year}`}
-                description={edition.data.description}
-                coverImage={edition.data.coverImage}
+                year={card.year}
+                href={`/editions/${card.year}`}
+                subtitle={card.subtitle}
+                coverImage={card.coverImage}
               />
             ))}
           </div>

@@ -5,6 +5,7 @@ import SeparatorLine from "@/components/elements/SeparatorLine.astro";
 import { getCollection } from "astro:content";
 import PdfDownloadButton from "@/components/editions/PdfDownloadButton.astro";
 import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import { getEditionAssetPhotos } from "@/utils/editionAssets";
 
 export async function getStaticPaths() {
   const editions = await getCollection("edition");
@@ -22,6 +23,9 @@ if (!edition) {
 }
 
 const { year, description, photos = [], pdfVinsAveugle, pdfVinsTable, pdfVinsOfferts } = edition.data;
+const cmsPhotos = (Array.isArray(photos) ? photos : []).filter(Boolean);
+const assetPhotos = await getEditionAssetPhotos(year);
+const galleryPhotos = cmsPhotos.length > 0 ? cmsPhotos : assetPhotos;
 ---
 
 <Layout title={`Edition ${year}`}>
@@ -61,7 +65,16 @@ const { year, description, photos = [], pdfVinsAveugle, pdfVinsTable, pdfVinsOff
           Photo gallery
         </h2>
 
-        <PhotoGallery photos={photos} altPrefix={`Edition ${year} photo`} />
+        <PhotoGallery
+          photos={galleryPhotos}
+          altPrefix={`Edition ${year} photo`}
+          emptyText="Photos coming soon (you can check the PDFs if available)."
+          previewTitle="Preview"
+          closeLabel="Close"
+          viewPhotoLabelPrefix="View photo"
+          prevLabel="Previous"
+          nextLabel="Next"
+        />
       </section>
     </div>
   </div>

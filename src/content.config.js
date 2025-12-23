@@ -3,7 +3,7 @@ import { glob } from "astro/loaders";
 
 const edition = defineCollection({
   loader: glob({ pattern: "**/*.json", base: "./src/content/editions" }),
-  schema: z.object({
+	schema: z.object({
     year: z.number(),
     description: z.string().optional(),
     coverImage: z.string().optional(),
@@ -11,7 +11,7 @@ const edition = defineCollection({
     pdfVinsAveugle: z.string().optional(),
     pdfVinsTable: z.string().optional(),
     pdfVinsOfferts: z.string().optional(),
-  }),
+	}),
 });
 
 export const collections = { edition };

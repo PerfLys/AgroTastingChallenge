@@ -3,10 +3,11 @@ interface Props {
   year: number;
   href: string;
   description?: string;
+  subtitle?: string;
   coverImage?: string;
 }
 
-const { year, href, description, coverImage } = Astro.props;
+const { year, href, description, subtitle, coverImage } = Astro.props;
 ---
 
 <a
@@ -29,7 +30,7 @@ const { year, href, description, coverImage } = Astro.props;
       {year}
     </div>
     <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">
-      {description || "Galerie + PDFs"}
+      {subtitle || description || "Galerie + PDFs"}
     </div>
   </div>
 </a>

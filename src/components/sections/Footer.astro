@@ -23,19 +23,19 @@ import { siteConfig, socialLinks } from "@/config/site.js";
     >
       {socialLinks.length > 0 &&
         socialLinks.map((social) => (
-          <a
-            href={social.url}
+        <a
+          href={social.url}
             target={social.url.startsWith("mailto:") ? undefined : "_blank"}
             rel={social.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-            class="footer-social-icon-link text-neutral-500 dark:text-neutral-300 "
-            title={social.name}
-          >
-            <span class="sr-only">{social.name}</span>
+          class="footer-social-icon-link text-neutral-500 dark:text-neutral-300 "
+          title={social.name}
+        >
+          <span class="sr-only">{social.name}</span>
             <div class="footer-social-icon text-neutral-500">
-              <Fragment set:html={social.icon} />
-            </div>
-          </a>
-        ))}
+            <Fragment set:html={social.icon} />
+          </div>
+        </a>
+      ))}
     </span>
   </div>
 </section>

@@ -110,7 +110,7 @@ function mobileMenuFunctionality() {
 			if (window.innerWidth < 640) {
 				(window).closeMobileMenu?.();
 			}
-		});
+	});
 	});
 }
 
