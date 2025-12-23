@@ -1,0 +1,17 @@
+[
+  { "name": "Home", "url": "/en/" },
+  { "name": "About us", "url": "/en/qui-sommes-nous" },
+  {
+    "name": "What is ATC",
+    "url": "/en/atc",
+    "children": [
+      { "name": "How it works", "url": "/en/atc/deroulement" },
+      { "name": "Who participates?", "url": "/en/atc/participants" },
+      { "name": "Rules", "url": "/en/atc/reglement" }
+    ]
+  },
+  { "name": "Editions", "url": "/en/editions" },
+  { "name": "Partners", "url": "/en/partenaires" }
+]
+
+

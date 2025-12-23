@@ -1,0 +1,47 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+---
+
+<Layout title="What is ATC">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title="What is ATC"
+      description="Everything you need to know about the Agro Tasting Challenge."
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          General presentation of ATC (goals, spirit, format). This page is the entry point to the details.
+        </p>
+
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <a
+            href="/en/atc/deroulement"
+            class="rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 p-5 transition-colors"
+          >
+            <div class="font-medium text-neutral-800 dark:text-neutral-100">How it works</div>
+            <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">The main steps</div>
+          </a>
+          <a
+            href="/en/atc/participants"
+            class="rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 p-5 transition-colors"
+          >
+            <div class="font-medium text-neutral-800 dark:text-neutral-100">Who participates?</div>
+            <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Teams, jury, guests</div>
+          </a>
+          <a
+            href="/en/atc/reglement"
+            class="rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 p-5 transition-colors"
+          >
+            <div class="font-medium text-neutral-800 dark:text-neutral-100">Rules</div>
+            <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Guidelines & info</div>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

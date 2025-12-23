@@ -1,0 +1,15 @@
+[
+  { "name": "Accueil", "url": "/" },
+  { "name": "Qui sommes-nous ?", "url": "/qui-sommes-nous" },
+  {
+    "name": "Qu’est-ce que l’ATC",
+    "url": "/atc",
+    "children": [
+      { "name": "Déroulement", "url": "/atc/deroulement" },
+      { "name": "Qui participe ?", "url": "/atc/participants" },
+      { "name": "Règlement", "url": "/atc/reglement" }
+    ]
+  },
+  { "name": "Éditions", "url": "/editions" },
+  { "name": "Partenaires", "url": "/partenaires" }
+]

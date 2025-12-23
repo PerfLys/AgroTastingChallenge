@@ -1,0 +1,17 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import Button from "@/components/ui/Button.astro";
+---
+
+<Layout title="Page Not Found">
+  <section class="site-container m-auto min-h-[50vh] flex flex-col items-center justify-center">
+    <PageHeader
+      title="404"
+      description="The page you’re looking for doesn’t exist."
+    />
+    <div class="mt-2 flex justify-center">
+      <Button url="/">Back to home</Button>
+    </div>
+  </section>
+</Layout>

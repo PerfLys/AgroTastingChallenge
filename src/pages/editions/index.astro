@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import { getCollection } from "astro:content";
+import EditionCard from "@/components/editions/EditionCard.astro";
+
+const editions = (await getCollection("edition"))
+  .slice()
+  .sort((a, b) => (b.data.year ?? 0) - (a.data.year ?? 0));
+---
+
+<Layout title="Éditions">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title="Éditions"
+      description="Retrouvez les photos et documents de chaque édition."
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        {editions.length === 0 ? (
+          <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+            Aucune édition n’est publiée pour le moment.
+          </p>
+        ) : (
+          <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {editions.map((edition) => (
+              <EditionCard
+                year={edition.data.year}
+                href={`/editions/${edition.data.year}`}
+                description={edition.data.description}
+                coverImage={edition.data.coverImage}
+              />
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

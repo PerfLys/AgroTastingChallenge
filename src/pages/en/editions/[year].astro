@@ -1,0 +1,70 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+import { getCollection } from "astro:content";
+import PdfDownloadButton from "@/components/editions/PdfDownloadButton.astro";
+import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+
+export async function getStaticPaths() {
+  const editions = await getCollection("edition");
+  return editions.map((entry) => ({
+    params: { year: String(entry.data.year) },
+  }));
+}
+
+const yearParam = Number(Astro.params.year);
+const editions = await getCollection("edition");
+const edition = editions.find((e) => e.data.year === yearParam);
+
+if (!edition) {
+  return Astro.redirect("/404");
+}
+
+const { year, description, photos = [], pdfVinsAveugle, pdfVinsTable, pdfVinsOfferts } = edition.data;
+---
+
+<Layout title={`Edition ${year}`}>
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title={`Edition ${year}`}
+      description={description || "Photos and documents for this edition."}
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+          Documents
+        </h2>
+
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {pdfVinsAveugle && (
+            <PdfDownloadButton href={pdfVinsAveugle} label="Blind tasting wines (PDF)" />
+          )}
+          {pdfVinsTable && (
+            <PdfDownloadButton href={pdfVinsTable} label="Wines served at the table (PDF)" />
+          )}
+          {pdfVinsOfferts && (
+            <PdfDownloadButton href={pdfVinsOfferts} label="Wines offered (PDF)" />
+          )}
+        </div>
+
+        {(!pdfVinsAveugle && !pdfVinsTable && !pdfVinsOfferts) && (
+          <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+            No document is available for this edition yet.
+          </p>
+        )}
+
+        <SeparatorLine className="my-10" />
+
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+          Photo gallery
+        </h2>
+
+        <PhotoGallery photos={photos} altPrefix={`Edition ${year} photo`} />
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

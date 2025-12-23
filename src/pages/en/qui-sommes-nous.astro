@@ -1,0 +1,36 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+---
+
+<Layout title="About us">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title="About us"
+      description="A team of enthusiasts behind the Agro Tasting Challenge (ATC)."
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+          Our mission
+        </h2>
+        <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Create a friendly moment around tasting, highlight producers, and foster meaningful encounters.
+        </p>
+
+        <SeparatorLine className="my-8" />
+
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+          The team
+        </h2>
+        <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Add a short presentation here (organizers, volunteers, etc.). This page can evolve over time.
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

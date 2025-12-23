@@ -1,0 +1,36 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+---
+
+<Layout title="Partenaires">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title="Partenaires"
+      description="Merci à celles et ceux qui soutiennent l’Agro Tasting Challenge."
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Vous pourrez ajouter ici la liste des partenaires (logos + liens). Si vous le souhaitez, on peut
+          aussi gérer cette page via Decap CMS plus tard.
+        </p>
+
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5 text-center text-sm text-neutral-600 dark:text-neutral-400">
+            Logo partenaire
+          </div>
+          <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5 text-center text-sm text-neutral-600 dark:text-neutral-400">
+            Logo partenaire
+          </div>
+          <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5 text-center text-sm text-neutral-600 dark:text-neutral-400">
+            Logo partenaire
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

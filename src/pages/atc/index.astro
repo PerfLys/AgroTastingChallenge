@@ -1,0 +1,48 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+---
+
+<Layout title="Qu’est-ce que l’ATC">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title="Qu’est-ce que l’ATC"
+      description="Tout savoir sur l’Agro Tasting Challenge."
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Présentation générale de l’ATC (objectif, esprit, format). Cette page sert de point d’entrée
+          vers les pages de détail.
+        </p>
+
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <a
+            href="/atc/deroulement"
+            class="rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 p-5 transition-colors"
+          >
+            <div class="font-medium text-neutral-800 dark:text-neutral-100">Déroulement</div>
+            <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Les étapes de l’événement</div>
+          </a>
+          <a
+            href="/atc/participants"
+            class="rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 p-5 transition-colors"
+          >
+            <div class="font-medium text-neutral-800 dark:text-neutral-100">Qui participe ?</div>
+            <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Participants, équipes, jury</div>
+          </a>
+          <a
+            href="/atc/reglement"
+            class="rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 p-5 transition-colors"
+          >
+            <div class="font-medium text-neutral-800 dark:text-neutral-100">Règlement</div>
+            <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Règles et informations</div>
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import AnimatedText from "@/components/ui/AnimatedText.astro";
+import Button from "@/components/ui/Button.astro";
+---
+
+<Layout
+  title="Agro Tasting Challenge"
+  description="The Agro Tasting Challenge (ATC) is an event about tasting and sharing."
+  keywords="Agro Tasting Challenge, ATC, tasting, wine, editions"
+>
+  <div class="relative site-container z-20 w-full mx-auto mt-16 px-4 md:mt-18 lg:mt-20 xl:px-0">
+    <div class="relative w-full px-4 flex flex-col items-center justify-between md:flex-row mb-16">
+      <div class="relative w-full md:max-w-[520px] md:w-1/2 text-center sm:text-left sm:-mt-8">
+        <h1 class="mb-4">
+          <AnimatedText
+            content="Agro Tasting Challenge"
+            delay={0.1}
+            duration={0.5}
+            stagger={0.06}
+            class="text-5xl leading-tight md:text-4xl lg:text-6xl font-brand"
+          />
+        </h1>
+
+        <div class="mb-4">
+          <AnimatedText
+            content="A friendly event built around tasting, meeting people and sharing."
+            delay={0.25}
+            duration={0.5}
+            stagger={0.015}
+            class="text-base text-neutral-700 dark:text-neutral-300"
+          />
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+          <Button url="/en/editions" type="fill" className="w-full sm:w-auto justify-center">
+            View editions
+          </Button>
+          <Button url="/en/atc" className="w-full sm:w-auto justify-center">
+            Discover ATC
+          </Button>
+        </div>
+      </div>
+
+      <div class="relative justify-end w-full mt-12 md:flex md:pl-10 md:w-1/2 md:mt-0">
+        <div class="w-full rounded-3xl overflow-hidden border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/30 backdrop-blur-sm">
+          <div class="p-6 sm:p-8">
+            <h2 class="text-xl sm:text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+              Highlights
+            </h2>
+            <p class="mt-2 text-sm leading-6 text-neutral-700 dark:text-neutral-300">
+              Find photos and PDFs for each edition, and add new ones easily via the CMS.
+            </p>
+            <div class="mt-6 grid grid-cols-1 gap-3">
+              <a class="rounded-xl px-4 py-3 bg-bg-secondary/70 dark:bg-bg-secondary/10 border border-primary/20 hover:border-primary/35 transition-colors" href="/en/editions">
+                <div class="text-sm font-medium text-neutral-800 dark:text-neutral-100">Editions</div>
+                <div class="text-xs text-neutral-600 dark:text-neutral-400">Galleries + PDFs</div>
+              </a>
+              <a class="rounded-xl px-4 py-3 bg-bg-secondary/70 dark:bg-bg-secondary/10 border border-primary/20 hover:border-primary/35 transition-colors" href="/en/partenaires">
+                <div class="text-sm font-medium text-neutral-800 dark:text-neutral-100">Partners</div>
+                <div class="text-xs text-neutral-600 dark:text-neutral-400">Supporters & sponsors</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+

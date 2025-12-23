@@ -1,0 +1,38 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+---
+
+<Layout title="Qui sommes-nous ?">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader
+      title="Qui sommes-nous ?"
+      description="Une équipe de passionnés qui organise l’Agro Tasting Challenge (ATC)."
+    />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+          Notre mission
+        </h2>
+        <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Créer un moment convivial autour de la dégustation, mettre en avant des
+          producteurs et favoriser les rencontres.
+        </p>
+
+        <SeparatorLine className="my-8" />
+
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
+          L’équipe
+        </h2>
+        <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Ajoutez ici une courte présentation (organisateurs, bénévoles, etc.).
+          Cette page peut évoluer facilement.
+        </p>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

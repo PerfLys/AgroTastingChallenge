@@ -1,0 +1,32 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+---
+
+<Layout title="Déroulement">
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader title="Déroulement" description="Comment se passe une édition de l’ATC ?" />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">En bref</h2>
+        <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+          Décrivez ici le déroulement (accueil, dégustation à l’aveugle, repas, etc.).
+        </p>
+
+        <SeparatorLine className="my-8" />
+
+        <ol class="space-y-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300 list-decimal pl-6">
+          <li>Arrivée et briefing</li>
+          <li>Dégustation à l’aveugle</li>
+          <li>Vins servis à table</li>
+          <li>Vins offerts</li>
+          <li>Remise des résultats</li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+
