@@ -1,0 +1,143 @@
+---
+import { ChevronDown, Check } from "@lucide/astro";
+
+interface Props {
+  className?: string;
+  size?: "sm" | "xs";
+}
+
+const { className = "", size = "sm" } = Astro.props;
+
+const pathname = Astro.url?.pathname ?? "/";
+const isEn = pathname === "/en" || pathname.startsWith("/en/");
+
+const frHref = isEn
+  ? (pathname === "/en" || pathname === "/en/" ? "/" : pathname.replace(/^\/en/, "") || "/")
+  : pathname || "/";
+
+const enHref = isEn
+  ? pathname || "/en/"
+  : (pathname === "/" ? "/en/" : `/en${pathname}`);
+
+const currentLabel = isEn ? "English" : "Français";
+const currentShort = isEn ? "EN" : "FR";
+const currentFlag = isEn ? "🇬🇧" : "🇫🇷";
+
+const labelPrefix = isEn ? "Language" : "Langue";
+const isCompact = size === "xs";
+---
+
+<details
+  class={`relative ${className}`}
+  data-lang-switcher
+>
+  <summary
+    class:list={[
+      "list-none cursor",
+      "flex items-center gap-2 rounded-full border border-neutral-200 dark:border-neutral-700",
+      "bg-white/60 dark:bg-neutral-950/30 backdrop-blur-sm text-neutral-700 dark:text-neutral-200",
+      "hover:border-primary/30 hover:text-primary transition-colors",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+      size === "xs" ? "h-9 px-2.5 text-xs" : "h-10 px-4 text-sm",
+    ]}
+    aria-label={`${labelPrefix}: ${currentLabel} (${currentShort}). Open language selector.`}
+    title={`${labelPrefix} : ${currentLabel}`}
+  >
+    <span aria-hidden="true" class="text-base leading-none">{currentFlag}</span>
+    {isCompact ? (
+      <>
+        <span class="sr-only">{labelPrefix}</span>
+        <span class="font-medium tracking-wide">{currentShort}</span>
+        <ChevronDown class="w-4 h-4 opacity-60" />
+      </>
+    ) : (
+      <>
+        <span class="opacity-70">{labelPrefix}</span>
+        <span class="opacity-40">:</span>
+        <span class="font-medium">{currentLabel}</span>
+        <span class="opacity-70">({currentShort})</span>
+        <ChevronDown class="w-4 h-4 opacity-70" />
+      </>
+    )}
+  </summary>
+
+  <div
+    class:list={[
+      "absolute right-0 top-full mt-2 z-50 rounded-2xl border border-dashed border-neutral-300 dark:border-neutral-700 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-lg overflow-hidden",
+      isCompact ? "min-w-[180px]" : "min-w-[220px]",
+    ]}
+    role="menu"
+    aria-label={isEn ? "Language selector" : "Sélecteur de langue"}
+  >
+    {isEn ? (
+      <div
+        class="flex items-center justify-between px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 bg-neutral-50/60 dark:bg-neutral-900/30"
+        aria-current="page"
+      >
+        <span class="flex items-center gap-2">
+          <span aria-hidden="true">🇬🇧</span>
+          <span>English</span>
+          <span class="opacity-60">(EN)</span>
+        </span>
+        <Check class="w-4 h-4 opacity-70" />
+      </div>
+    ) : (
+      <a
+        href={enHref}
+        class="flex items-center justify-between px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100/60 dark:hover:bg-neutral-800/40 transition-colors"
+        role="menuitem"
+      >
+        <span class="flex items-center gap-2">
+          <span aria-hidden="true">🇬🇧</span>
+          <span>English</span>
+          <span class="opacity-60">(EN)</span>
+        </span>
+      </a>
+    )}
+
+    <div class="h-px bg-neutral-200/70 dark:bg-neutral-800/70" role="separator"></div>
+
+    {!isEn ? (
+      <div
+        class="flex items-center justify-between px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 bg-neutral-50/60 dark:bg-neutral-900/30"
+        aria-current="page"
+      >
+        <span class="flex items-center gap-2">
+          <span aria-hidden="true">🇫🇷</span>
+          <span>Français</span>
+          <span class="opacity-60">(FR)</span>
+        </span>
+        <Check class="w-4 h-4 opacity-70" />
+      </div>
+    ) : (
+      <a
+        href={frHref}
+        class="flex items-center justify-between px-4 py-3 text-sm text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100/60 dark:hover:bg-neutral-800/40 transition-colors"
+        role="menuitem"
+      >
+        <span class="flex items-center gap-2">
+          <span aria-hidden="true">🇫🇷</span>
+          <span>Français</span>
+          <span class="opacity-60">(FR)</span>
+        </span>
+      </a>
+    )}
+  </div>
+</details>
+
+<script>
+  // Close language dropdown when clicking outside (works even if component is rendered multiple times).
+  if (!window.__atcLangSwitcherInit) {
+    window.__atcLangSwitcherInit = true;
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+      if (!(target instanceof Node)) return;
+
+      document.querySelectorAll("details[data-lang-switcher][open]").forEach((d) => {
+        if (!d.contains(target)) d.removeAttribute("open");
+      });
+    });
+  }
+</script>
+
+
