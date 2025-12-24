@@ -45,12 +45,13 @@ const editionCards = await Promise.all(
                         </p>
                     ) : (
                         <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {editionCards.map((card) => (
+                            {editionCards.map((card, idx) => (
                                 <EditionCard
                                     year={card.year}
                                     href={`/editions/${card.year}`}
                                     subtitle={card.subtitle}
                                     coverImage={card.coverImage}
+                                    isAboveFold={idx < 2}
                                 />
                             ))}
                         </div>

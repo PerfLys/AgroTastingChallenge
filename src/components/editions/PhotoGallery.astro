@@ -31,25 +31,33 @@ const totalPhotosCount = photos.length;
 ) : (
   <>
     <div class="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-3" data-gallery-root={galleryId}>
-      {photos.map((src, idx) => (
-        <button
-          type="button"
-          class="group overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 text-left cursor-pointer"
-          data-photo={src}
-          data-index={idx}
-          aria-label={`${viewPhotoLabelPrefix} ${idx + 1}`}
-        >
-          <img
-            src={src}
-            alt={`${altPrefix} ${idx + 1}`}
-            class="w-full h-full object-cover aspect-[4/3] group-hover:scale-[1.03] transition-transform duration-300"
-            loading="lazy"
-            decoding="async"
-            width="400"
-            height="300"
-          />
-        </button>
-      ))}
+      {photos.map((src, idx) => {
+        // Load first 6 images eagerly, rest lazily with low priority
+        const isAboveFold = idx < 6;
+        return (
+          <button
+            type="button"
+            class="group overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 text-left cursor-pointer relative"
+            data-photo={src}
+            data-index={idx}
+            aria-label={`${viewPhotoLabelPrefix} ${idx + 1}`}
+          >
+            <img
+              src={src}
+              alt={`${altPrefix} ${idx + 1}`}
+              class="w-full h-full object-cover aspect-[4/3] group-hover:scale-[1.03] transition-transform duration-300"
+              loading={isAboveFold ? "eager" : "lazy"}
+              decoding="async"
+              fetchpriority={isAboveFold ? "high" : "low"}
+              width="400"
+              height="300"
+              sizes="(max-width: 640px) 50vw, 33vw"
+            />
+            {/* Subtle loading placeholder */}
+            <div class="absolute inset-0 bg-gradient-to-br from-neutral-100/50 to-neutral-200/30 dark:from-neutral-800/30 dark:to-neutral-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          </button>
+        );
+      })}
     </div>
 
     <dialog class="atc-lightbox" data-gallery-dialog={galleryId}>
