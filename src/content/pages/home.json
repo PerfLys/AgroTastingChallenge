@@ -1,0 +1,10 @@
+{
+  "_template": "home",
+  "title": "Accueil",
+  "heroTitle": "Agro Tasting Challenge",
+  "heroSubtitle": "Un événement autour de la dégustation, des rencontres et du partage.",
+  "heroButtonEds": "Voir les éditions",
+  "heroButtonAtc": "Découvrir l’ATC",
+  "featuredTitle": "À la une",
+  "featuredText": "Retrouvez les photos et documents (PDF) de chaque édition, et ajoutez facilement les prochaines via le CMS."
+}

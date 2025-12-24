@@ -29,7 +29,7 @@
 	"homepage": "https://github.com/ricocc/ricoui-portfolio#readme",
 	"license": "Apache-2.0",
 	"scripts": {
-		"dev": "astro dev",
+		"dev": "tinacms dev -c \"astro dev\"",
 		"start": "astro dev",
 		"build": "astro check && astro build",
 		"preview": "astro preview",

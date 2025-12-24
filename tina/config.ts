@@ -21,7 +21,7 @@ export default defineConfig({
   },
   media: {
     tina: {
-      mediaRoot: "",
+      mediaRoot: "uploads",
       publicFolder: "public",
     },
   },
@@ -29,22 +29,175 @@ export default defineConfig({
   schema: {
     collections: [
       {
-        name: "post",
-        label: "Posts",
-        path: "content/posts",
+        name: "editions",
+        label: "Éditions",
+        path: "src/content/editions",
+        format: "json",
+        ui: {
+          filename: {
+            // if true, the filename is read-only
+            readonly: false,
+            // the function used to generate the filename
+            slugify: (values) => {
+              return `${values?.year || 'new-edition'}`
+            },
+          },
+        },
         fields: [
           {
-            type: "string",
-            name: "title",
-            label: "Title",
-            isTitle: true,
+            type: "number",
+            name: "year",
+            label: "Année",
             required: true,
+            isTitle: true,
           },
           {
-            type: "rich-text",
-            name: "body",
-            label: "Body",
-            isBody: true,
+            type: "string",
+            name: "description",
+            label: "Description",
+            ui: {
+              component: "textarea",
+            },
+          },
+          {
+            type: "image",
+            name: "coverImage",
+            label: "Image de couverture",
+          },
+          {
+            type: "image",
+            name: "photos",
+            label: "Galerie photos",
+            list: true,
+          },
+          {
+            type: "image",
+            name: "pdfVinsAveugle",
+            label: "PDF — Vins à l'aveugle",
+          },
+          {
+            type: "image",
+            name: "pdfVinsTable",
+            label: "PDF — Vins servis à table",
+          },
+          {
+            type: "image",
+            name: "pdfVinsOfferts",
+            label: "PDF — Vins offerts",
+          },
+        ],
+      },
+      {
+        name: "pages",
+        label: "Pages",
+        path: "src/content/pages",
+        format: "json",
+        ui: {
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+        },
+        templates: [
+          {
+            name: "home",
+            label: "Accueil",
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Titre de la page",
+                required: true,
+                isTitle: true,
+              },
+              {
+                type: "string",
+                name: "heroTitle",
+                label: "Titre Hero",
+              },
+              {
+                type: "string",
+                name: "heroSubtitle",
+                label: "Sous-titre Hero",
+              },
+              {
+                type: "string",
+                name: "heroButtonEds",
+                label: "Bouton Éditions",
+              },
+              {
+                type: "string",
+                name: "heroButtonAtc",
+                label: "Bouton ATC",
+              },
+              {
+                type: "string",
+                name: "featuredTitle",
+                label: "Titre Mis à la une",
+              },
+              {
+                type: "string",
+                name: "featuredText",
+                label: "Texte Mis à la une",
+              },
+            ],
+          },
+          {
+            name: "partenaires",
+            label: "Partenaires",
+            fields: [
+              {
+                type: "string",
+                name: "title",
+                label: "Titre de la page",
+                required: true,
+                isTitle: true,
+              },
+              {
+                type: "string",
+                name: "partnersDescription",
+                label: "Description",
+                ui: {
+                  component: "textarea",
+                },
+              },
+              {
+                type: "string",
+                name: "partnersIntro",
+                label: "Intro texte",
+                ui: {
+                  component: "textarea",
+                },
+              },
+              {
+                type: "object",
+                name: "partnersList",
+                label: "Liste des partenaires",
+                list: true,
+                ui: {
+                  itemProps: (item) => {
+                    return { label: item?.name || 'Partenaire' }
+                  },
+                },
+                fields: [
+                  {
+                    type: "string",
+                    name: "name",
+                    label: "Nom",
+                  },
+                  {
+                    type: "image",
+                    name: "logo",
+                    label: "Logo",
+                  },
+                  {
+                    type: "string",
+                    name: "url",
+                    label: "Lien",
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

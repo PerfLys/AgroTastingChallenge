@@ -1,12 +1,17 @@
 {
   "year": 2025,
-  "description": "",
-  "photos": [],
+  "description": "L'édition 2025 s'est déroulé du 14 au 15 mars 2025",
+  "coverImage": "/uploads/ruinart-agro-paris-tech_mars-2025_1-3.jpg",
+  "photos": [
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_100.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_102.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_103.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_104.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_105.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_106.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_108.jpg"
+  ],
   "pdfVinsAveugle": "",
   "pdfVinsTable": "",
   "pdfVinsOfferts": ""
 }
-
-
-
-

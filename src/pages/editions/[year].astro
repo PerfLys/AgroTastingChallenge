@@ -5,13 +5,12 @@ import SeparatorLine from "@/components/elements/SeparatorLine.astro";
 import { getCollection } from "astro:content";
 import PdfDownloadButton from "@/components/editions/PdfDownloadButton.astro";
 import PhotoGallery from "@/components/editions/PhotoGallery.astro";
-import { getEditionAssetPhotos } from "@/utils/editionAssets";
 
 export async function getStaticPaths() {
-  const editions = await getCollection("edition");
-  return editions.map((entry) => ({
-    params: { year: String(entry.data.year) },
-  }));
+    const editions = await getCollection("edition");
+    return editions.map((entry) => ({
+        params: { year: String(entry.data.year) },
+    }));
 }
 
 const yearParam = Number(Astro.params.year);
@@ -19,62 +18,90 @@ const editions = await getCollection("edition");
 const edition = editions.find((e) => e.data.year === yearParam);
 
 if (!edition) {
-  return Astro.redirect("/404");
+    return Astro.redirect("/404");
 }
 
-const { year, description, photos = [], pdfVinsAveugle, pdfVinsTable, pdfVinsOfferts } = edition.data;
-const cmsPhotos = (Array.isArray(photos) ? photos : []).filter(Boolean);
-const assetPhotos = await getEditionAssetPhotos(year);
-const galleryPhotos = cmsPhotos.length > 0 ? cmsPhotos : assetPhotos;
+const {
+    year,
+    description,
+    photos = [],
+    pdfVinsAveugle,
+    pdfVinsTable,
+    pdfVinsOfferts,
+} = edition.data;
+// photos is now just an array of strings
+const galleryPhotos = Array.isArray(photos) ? photos.filter(Boolean) : [];
 ---
 
 <Layout title={`Édition ${year}`}>
-  <div class="site-container mx-auto px-4 mt-10">
-    <PageHeader
-      title={`Édition ${year}`}
-      description={description || "Photos et documents de l’édition."}
-    />
-
-    <div class="inner-container mx-auto">
-      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
-        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
-          Documents
-        </h2>
-
-        <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {pdfVinsAveugle && (
-            <PdfDownloadButton href={pdfVinsAveugle} label="Vins à l’aveugle (PDF)" />
-          )}
-          {pdfVinsTable && (
-            <PdfDownloadButton href={pdfVinsTable} label="Vins servis à table (PDF)" />
-          )}
-          {pdfVinsOfferts && (
-            <PdfDownloadButton href={pdfVinsOfferts} label="Vins offerts (PDF)" />
-          )}
-        </div>
-
-        {(!pdfVinsAveugle && !pdfVinsTable && !pdfVinsOfferts) && (
-          <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
-            Aucun document n’est disponible pour cette édition pour le moment.
-          </p>
-        )}
-
-        <SeparatorLine className="my-10" />
-
-        <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">
-          Galerie photos
-        </h2>
-
-        <PhotoGallery
-          photos={galleryPhotos}
-          altPrefix={`Photo édition ${year}`}
-          emptyText="Photos à venir (vous pouvez consulter les PDFs si disponibles)."
-          prevLabel="Précédent"
-          nextLabel="Suivant"
+    <div class="site-container mx-auto px-4 mt-10">
+        <PageHeader
+            title={`Édition ${year}`}
+            description={description || "Photos et documents de l’édition."}
         />
-      </section>
+
+        <div class="inner-container mx-auto">
+            <section
+                class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8"
+            >
+                <h2
+                    class="text-2xl font-brand text-neutral-800 dark:text-neutral-100"
+                >
+                    Documents
+                </h2>
+
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {
+                        pdfVinsAveugle && (
+                            <PdfDownloadButton
+                                href={pdfVinsAveugle}
+                                label="Vins à l’aveugle (PDF)"
+                            />
+                        )
+                    }
+                    {
+                        pdfVinsTable && (
+                            <PdfDownloadButton
+                                href={pdfVinsTable}
+                                label="Vins servis à table (PDF)"
+                            />
+                        )
+                    }
+                    {
+                        pdfVinsOfferts && (
+                            <PdfDownloadButton
+                                href={pdfVinsOfferts}
+                                label="Vins offerts (PDF)"
+                            />
+                        )
+                    }
+                </div>
+
+                {
+                    !pdfVinsAveugle && !pdfVinsTable && !pdfVinsOfferts && (
+                        <p class="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
+                            Aucun document n’est disponible pour cette édition
+                            pour le moment.
+                        </p>
+                    )
+                }
+
+                <SeparatorLine className="my-10" />
+
+                <h2
+                    class="text-2xl font-brand text-neutral-800 dark:text-neutral-100"
+                >
+                    Galerie photos
+                </h2>
+
+                <PhotoGallery
+                    photos={galleryPhotos}
+                    altPrefix={`Photo édition ${year}`}
+                    emptyText="Photos à venir (vous pouvez consulter les PDFs si disponibles)."
+                    prevLabel="Précédent"
+                    nextLabel="Suivant"
+                />
+            </section>
+        </div>
     </div>
-  </div>
 </Layout>
-
-

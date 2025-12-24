@@ -2,6 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import AnimatedText from "@/components/ui/AnimatedText.astro";
 import Button from "@/components/ui/Button.astro";
+import homeData from "@/content/pages/home.json";
+
+const { heroTitle, heroSubtitle, heroButtonEds, heroButtonAtc, featuredTitle, featuredText } = homeData;
 ---
 
 <Layout
@@ -14,7 +17,7 @@ import Button from "@/components/ui/Button.astro";
       <div class="relative w-full md:max-w-[520px] md:w-1/2 text-center sm:text-left sm:-mt-8">
         <h1 class="mb-4">
           <AnimatedText
-            content="Agro Tasting Challenge"
+            content={heroTitle}
             delay={0.1}
             duration={0.5}
             stagger={0.06}
@@ -24,7 +27,7 @@ import Button from "@/components/ui/Button.astro";
 
         <div class="mb-4">
           <AnimatedText
-            content="Un événement autour de la dégustation, des rencontres et du partage."
+            content={heroSubtitle}
             delay={0.25}
             duration={0.5}
             stagger={0.015}
@@ -34,10 +37,10 @@ import Button from "@/components/ui/Button.astro";
 
         <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
           <Button url="/editions" type="fill" className="w-full sm:w-auto justify-center">
-            Voir les éditions
+            {heroButtonEds}
           </Button>
           <Button url="/atc" className="w-full sm:w-auto justify-center">
-            Découvrir l’ATC
+            {heroButtonAtc}
           </Button>
         </div>
         </div>
@@ -46,10 +49,10 @@ import Button from "@/components/ui/Button.astro";
         <div class="w-full rounded-3xl overflow-hidden border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/30 backdrop-blur-sm">
           <div class="p-6 sm:p-8">
             <h2 class="text-xl sm:text-2xl font-brand text-neutral-800 dark:text-neutral-100">
-              À la une
+              {featuredTitle}
             </h2>
             <p class="mt-2 text-sm leading-6 text-neutral-700 dark:text-neutral-300">
-              Retrouvez les photos et documents (PDF) de chaque édition, et ajoutez facilement les prochaines via le CMS.
+              {featuredText}
             </p>
             <div class="mt-6 grid grid-cols-1 gap-3">
               <a class="rounded-xl px-4 py-3 bg-bg-secondary/70 dark:bg-bg-secondary/10 border border-primary/20 hover:border-primary/35 transition-colors" href="/editions">

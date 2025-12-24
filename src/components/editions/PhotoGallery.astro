@@ -21,29 +21,6 @@ const {
   nextLabel = "Suivant",
 } = Astro.props;
 const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
-
-// Helper function to generate optimized thumbnail URL
-// Using Netlify Image CDN query params (works on Netlify, falls back to original in dev)
-function getThumbnailUrl(originalUrl: string): string {
-  if (originalUrl.startsWith('/')) {
-    // Netlify Image CDN: fit to width 400px, quality 75% for faster loading
-    return `${originalUrl}?nf_resize=fit&w=400&q=75`;
-  }
-  return originalUrl;
-}
-
-// Helper function to generate optimized full-size URL for lightbox
-function getFullSizeUrl(originalUrl: string): string {
-  if (originalUrl.startsWith('/')) {
-    // Netlify Image CDN: fit to max width 1600px (good balance), quality 85%
-    return `${originalUrl}?nf_resize=fit&w=1600&q=85`;
-  }
-  return originalUrl;
-}
-
-// Generate optimized URLs arrays
-const thumbnailUrls = photos.map(getThumbnailUrl);
-const optimizedPhotos = photos.map(getFullSizeUrl);
 const totalPhotosCount = photos.length;
 ---
 
@@ -63,7 +40,7 @@ const totalPhotosCount = photos.length;
           aria-label={`${viewPhotoLabelPrefix} ${idx + 1}`}
         >
           <img
-            src={thumbnailUrls[idx]}
+            src={src}
             alt={`${altPrefix} ${idx + 1}`}
             class="w-full h-full object-cover aspect-[4/3] group-hover:scale-[1.03] transition-transform duration-300"
             loading="lazy"
@@ -104,7 +81,7 @@ const totalPhotosCount = photos.length;
       </div>
     </dialog>
 
-    <script is:inline define:vars={{ galleryId, photos: JSON.stringify(optimizedPhotos), totalPhotosCount, altPrefix }}>
+    <script is:inline define:vars={{ galleryId, photos: photos, totalPhotosCount, altPrefix }}>
       (() => {
         const root = document.querySelector(`[data-gallery-root="${galleryId}"]`);
         const dialog = document.querySelector(`[data-gallery-dialog="${galleryId}"]`);
@@ -158,12 +135,17 @@ const totalPhotosCount = photos.length;
         function showImage(index) {
           updateImage(index);
           dialog.showModal();
+          const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+          document.body.style.paddingRight = `${scrollbarWidth}px`;
           document.body.style.overflow = "hidden";
+          document.documentElement.style.overflow = "hidden";
         }
 
         function closeLightbox() {
           dialog.close();
           document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+          document.body.style.paddingRight = "";
         }
 
         // Open lightbox on thumbnail click
@@ -233,6 +215,8 @@ const totalPhotosCount = photos.length;
     height: 100vh;
     border: none;
     background: transparent;
+    z-index: 9999;
+    overflow: hidden;
   }
 
   dialog.atc-lightbox::backdrop {
@@ -295,19 +279,23 @@ const totalPhotosCount = photos.length;
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: calc(100vw - 200px);
-    max-height: calc(100vh - 120px);
+    position: relative;
+    height: 100%;
+    width: 100%;
     min-width: 0;
     min-height: 0;
     overflow: hidden;
   }
 
   .atc-lightbox-image {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    max-width: none;
+    max-height: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
     border-radius: 0.5rem;
     display: block;
     transition: opacity 0.2s ease-in-out;
