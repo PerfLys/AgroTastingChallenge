@@ -1,4 +1,6 @@
 ---
+import { ImageIcon } from "@lucide/astro";
+
 interface Props {
   year: number;
   href: string;
@@ -22,7 +24,12 @@ const { year, href, description, subtitle, coverImage } = Astro.props;
       loading="lazy"
     />
   ) : (
-    <div class="w-full aspect-[16/9] bg-gradient-to-b from-white/40 to-white/10 dark:from-neutral-900/40 dark:to-neutral-900/10" />
+    <div class="w-full aspect-[16/9] bg-gradient-to-br from-neutral-100/50 to-neutral-200/30 dark:from-neutral-800/50 dark:to-neutral-900/30 flex items-center justify-center border-b border-neutral-200/50 dark:border-neutral-700/50">
+      <div class="flex flex-col items-center gap-2 text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-500 dark:group-hover:text-neutral-400 transition-colors">
+        <ImageIcon class="w-12 h-12" stroke-width="1.5" />
+        <span class="text-xs font-medium">Photos à venir</span>
+      </div>
+    </div>
   )}
 
   <div class="p-5">
