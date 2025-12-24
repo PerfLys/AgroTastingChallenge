@@ -1,20 +1,35 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/elements/PageHeader.astro";
+import MarkdownContent from "@/components/elements/MarkdownContent.astro";
+import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import atcData from "@/content/pages/atc.json";
+
+const { titleEn, descriptionEn, bodyEn, coverImage, photos } = atcData;
+const photoList = Array.isArray(photos) ? photos : [];
 ---
 
-<Layout title="What is ATC">
+<Layout title={titleEn}>
   <div class="site-container mx-auto px-4 mt-10">
     <PageHeader
-      title="What is ATC"
-      description="Everything you need to know about the Agro Tasting Challenge."
+      title={titleEn}
+      description={descriptionEn}
     />
 
     <div class="inner-container mx-auto">
       <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
-        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
-          General presentation of ATC (goals, spirit, format). This page is the entry point to the details.
-        </p>
+        {coverImage && (
+          <img
+            src={coverImage}
+            alt=""
+            class="w-full h-auto rounded-2xl border border-neutral-200 dark:border-neutral-700 object-cover aspect-[16/9]"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        )}
+
+        <MarkdownContent content={bodyEn} className="mt-6" />
 
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
           <a
@@ -39,6 +54,20 @@ import PageHeader from "@/components/elements/PageHeader.astro";
             <div class="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Guidelines & info</div>
           </a>
         </div>
+
+        {photoList.length > 0 && (
+          <div class="mt-10">
+            <PhotoGallery
+              photos={photoList}
+              altPrefix="Photo"
+              previewTitle="Preview"
+              closeLabel="Close"
+              viewPhotoLabelPrefix="View photo"
+              prevLabel="Previous"
+              nextLabel="Next"
+            />
+          </div>
+        )}
       </section>
     </div>
   </div>

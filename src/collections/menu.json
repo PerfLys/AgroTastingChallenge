@@ -11,5 +11,6 @@
     ]
 	},
   { "name": "Éditions", "url": "/editions" },
-  { "name": "Partenaires", "url": "/partenaires" }
+  { "name": "Partenaires", "url": "/partenaires" },
+  { "name": "Contact", "url": "/contact" }
 ]

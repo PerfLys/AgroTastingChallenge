@@ -1,17 +1,52 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+import MarkdownContent from "@/components/elements/MarkdownContent.astro";
+import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import reglementData from "@/content/pages/atc-reglement.json";
+
+const { titleEn, descriptionEn, bodyEn, coverImage } = reglementData;
+const photoList = Array.isArray((reglementData as Partial<{ photos: string[] }>).photos)
+  ? (reglementData as Partial<{ photos: string[] }>).photos ?? []
+  : [];
 ---
 
-<Layout title="Rules">
+<Layout title={titleEn}>
   <div class="site-container mx-auto px-4 mt-10">
-    <PageHeader title="Rules" description="Guidelines and practical information." />
+    <PageHeader title={titleEn} description={descriptionEn} />
 
     <div class="inner-container mx-auto">
       <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
-        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
-          Paste the rules (or a summary) and useful information here. If you prefer, we can also link a PDF.
-        </p>
+        {coverImage && (
+          <img
+            src={coverImage}
+            alt=""
+            class="w-full h-auto rounded-2xl border border-neutral-200 dark:border-neutral-700 object-cover aspect-[16/9]"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        )}
+
+        <MarkdownContent content={bodyEn} className="mt-6" />
+
+        {photoList.length > 0 && (
+          <>
+            <SeparatorLine className="my-8" />
+
+            <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">Photos</h2>
+            <PhotoGallery
+              photos={photoList}
+              altPrefix="Photo"
+              previewTitle="Preview"
+              closeLabel="Close"
+              viewPhotoLabelPrefix="View photo"
+              prevLabel="Previous"
+              nextLabel="Next"
+            />
+          </>
+        )}
       </section>
     </div>
   </div>

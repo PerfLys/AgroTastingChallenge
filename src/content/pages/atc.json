@@ -1,0 +1,18 @@
+{
+  "titleFr": "Qu’est-ce que l’ATC",
+  "titleEn": "What is ATC",
+  "descriptionFr": "Tout savoir sur l’Agro Tasting Challenge (ATC).",
+  "descriptionEn": "Everything you need to know about the Agro Tasting Challenge (ATC).",
+  "bodyFr": "L’**Agro Tasting Challenge** (ATC) est un concours de dégustation à l’aveugle organisé par l’Association Œnologique d’AgroParisTech, en partenariat avec la maison **Ruinart**.\n\nL’événement réunit des équipes d’étudiants issues de Grandes Écoles françaises et internationales pour une journée mêlant dégustation, analyse, échanges et convivialité.\n\n- Découvrez le **déroulement** de la journée\n- Comprenez **qui participe** et comment candidater\n- Consultez le **règlement** de l’ATC\n",
+  "bodyEn": "The **Agro Tasting Challenge** (ATC) is a blind-tasting competition organized by the Œnological Association of AgroParisTech, in partnership with **Ruinart**.\n\nThe event brings together teams of students from leading French and international schools for a day combining tasting, analysis, discussion, and conviviality.\n\n- Learn how the event **works**\n- See **who participates** and how to apply\n- Read the official **rules**\n",
+  "coverImage": "/uploads/2025/ruinart-agro-paris-tech_mars-2025_22.jpg",
+  "photos": [
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_23.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_39.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_47.jpg",
+    "/uploads/2025/ruinart-agro-paris-tech_mars-2025_83.jpg",
+    "/uploads/ruinart-agro-paris-tech_mars-2025_1-3.jpg",
+    "/uploads/2024/ruinart-atc-01885-leo-ginailhac.jpg"
+  ],
+  "_template": "atcIndex"
+}

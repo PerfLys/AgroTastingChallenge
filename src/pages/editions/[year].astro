@@ -98,13 +98,14 @@ const dateDescription = formatEditionSentence(year, { startDate, endDate }, "fr-
                     Galerie photos
                 </h2>
 
-                <PhotoGallery
-                    photos={galleryPhotos}
-                    altPrefix={`Photo édition ${year}`}
-                    emptyText="Photos à venir (vous pouvez consulter les PDFs si disponibles)."
-                    prevLabel="Précédent"
-                    nextLabel="Suivant"
-                />
+                {galleryPhotos.length > 0 && (
+                    <PhotoGallery
+                        photos={galleryPhotos}
+                        altPrefix={`Photo édition ${year}`}
+                        prevLabel="Précédent"
+                        nextLabel="Suivant"
+                    />
+                )}
             </section>
         </div>
     </div>

@@ -1,18 +1,52 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+import MarkdownContent from "@/components/elements/MarkdownContent.astro";
+import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import reglementData from "@/content/pages/atc-reglement.json";
+
+const { titleFr, descriptionFr, bodyFr, coverImage } = reglementData;
+const photoList = Array.isArray((reglementData as Partial<{ photos: string[] }>).photos)
+  ? (reglementData as Partial<{ photos: string[] }>).photos ?? []
+  : [];
 ---
 
-<Layout title="Règlement">
+<Layout title={titleFr}>
   <div class="site-container mx-auto px-4 mt-10">
-    <PageHeader title="Règlement" description="Règles et informations pratiques." />
+    <PageHeader title={titleFr} description={descriptionFr} />
 
     <div class="inner-container mx-auto">
       <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
-        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
-          Collez ici le règlement (ou un résumé) et les informations utiles. Si vous préférez, on peut aussi
-          lier un PDF depuis cette page.
-        </p>
+        {coverImage && (
+          <img
+            src={coverImage}
+            alt=""
+            class="w-full h-auto rounded-2xl border border-neutral-200 dark:border-neutral-700 object-cover aspect-[16/9]"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        )}
+
+        <MarkdownContent content={bodyFr} className="mt-6" />
+
+        {photoList.length > 0 && (
+          <>
+            <SeparatorLine className="my-8" />
+
+            <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">Photos</h2>
+            <PhotoGallery
+              photos={photoList}
+              altPrefix="Photo"
+              previewTitle="Aperçu"
+              closeLabel="Fermer"
+              viewPhotoLabelPrefix="Voir la photo"
+              prevLabel="Précédent"
+              nextLabel="Suivant"
+            />
+          </>
+        )}
       </section>
     </div>
   </div>

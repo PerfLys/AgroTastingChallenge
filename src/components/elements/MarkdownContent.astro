@@ -1,0 +1,17 @@
+---
+import { renderMarkdown } from "@/utils/markdown";
+
+interface Props {
+  content?: string | null;
+  className?: string;
+}
+
+const { content, className = "" } = Astro.props;
+const html = renderMarkdown(content);
+---
+
+{html ? (
+  <div class={`prose prose-neutral dark:prose-invert max-w-none ${className}`} set:html={html} />
+) : null}
+
+

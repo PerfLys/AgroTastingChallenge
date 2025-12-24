@@ -1,0 +1,113 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+import MarkdownContent from "@/components/elements/MarkdownContent.astro";
+import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import contactData from "@/content/pages/contact.json";
+
+const { titleFr, descriptionFr, email, phones, bodyFr, coverImage } = contactData;
+const phoneList = Array.isArray(phones) ? phones : [];
+const photoList = Array.isArray((contactData as Partial<{ photos: string[] }>).photos)
+  ? (contactData as Partial<{ photos: string[] }>).photos ?? []
+  : [];
+const mailto = email ? `mailto:${email}` : "";
+---
+
+<Layout title={titleFr}>
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader title={titleFr} description={descriptionFr} />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        {coverImage && (
+          <img
+            src={coverImage}
+            alt=""
+            class="w-full h-auto rounded-2xl border border-neutral-200 dark:border-neutral-700 object-cover aspect-[16/9]"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        )}
+
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5">
+            <div class="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+              E-mail
+            </div>
+            {email ? (
+              <a
+                href={mailto}
+                class="mt-2 block text-sm font-medium text-neutral-800 dark:text-neutral-100 hover:text-primary transition-colors break-all"
+              >
+                {email}
+              </a>
+            ) : (
+              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">—</div>
+            )}
+          </div>
+
+          <div class="rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5">
+            <div class="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+              Téléphone
+            </div>
+            {phoneList.length ? (
+              <div class="mt-3 space-y-3">
+                {phoneList.map((p) => {
+                  const raw = (p?.number || "").toString();
+                  const tel = raw ? `tel:${raw.replace(/\\s+/g, "")}` : "";
+                  return (
+                    <div class="text-sm">
+                      {p?.name && (
+                        <div class="text-neutral-700 dark:text-neutral-300">{p.name}</div>
+                      )}
+                      {raw ? (
+                        <a
+                          href={tel}
+                          class="font-medium text-neutral-800 dark:text-neutral-100 hover:text-primary transition-colors"
+                        >
+                          {raw}
+                        </a>
+                      ) : (
+                        <div class="text-neutral-600 dark:text-neutral-400">—</div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div class="mt-2 text-sm text-neutral-600 dark:text-neutral-400">—</div>
+            )}
+          </div>
+        </div>
+
+        {bodyFr && (
+          <>
+            <SeparatorLine className="my-8" />
+            <MarkdownContent content={bodyFr} />
+          </>
+        )}
+
+        {photoList.length > 0 && (
+          <>
+            <SeparatorLine className="my-8" />
+
+            <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">Photos</h2>
+            <PhotoGallery
+              photos={photoList}
+              altPrefix="Photo"
+              previewTitle="Aperçu"
+              closeLabel="Fermer"
+              viewPhotoLabelPrefix="Voir la photo"
+              prevLabel="Précédent"
+              nextLabel="Suivant"
+            />
+          </>
+        )}
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

@@ -1,20 +1,64 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/elements/PageHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
+import MarkdownContent from "@/components/elements/MarkdownContent.astro";
+import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import Button from "@/components/ui/Button.astro";
+import participantsData from "@/content/pages/atc-participants.json";
+
+const { titleEn, descriptionEn, bodyEn, applicationFormUrl, coverImage } = participantsData;
+const photoList = Array.isArray((participantsData as Partial<{ photos: string[] }>).photos)
+  ? (participantsData as Partial<{ photos: string[] }>).photos ?? []
+  : [];
 ---
 
-<Layout title="Who participates?">
+<Layout title={titleEn}>
   <div class="site-container mx-auto px-4 mt-10">
     <PageHeader
-      title="Who participates?"
-      description="Participants, teams, jury and guests."
+      title={titleEn}
+      description={descriptionEn}
     />
 
     <div class="inner-container mx-auto">
       <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
-        <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300">
-          Add participation rules and profiles here (students, professionals, guests, jury, etc.).
-        </p>
+        {coverImage && (
+          <img
+            src={coverImage}
+            alt=""
+            class="w-full h-auto rounded-2xl border border-neutral-200 dark:border-neutral-700 object-cover aspect-[16/9]"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        )}
+
+        {applicationFormUrl && (
+          <div class="mt-6 flex justify-center sm:justify-start">
+            <Button url={applicationFormUrl} type="fill" target="_blank" className="max-w-none">
+              Apply via the form
+            </Button>
+          </div>
+        )}
+
+        <MarkdownContent content={bodyEn} className="mt-6" />
+
+        {photoList.length > 0 && (
+          <>
+            <SeparatorLine className="my-8" />
+
+            <h2 class="text-2xl font-brand text-neutral-800 dark:text-neutral-100">Photos</h2>
+            <PhotoGallery
+              photos={photoList}
+              altPrefix="Photo"
+              previewTitle="Preview"
+              closeLabel="Close"
+              viewPhotoLabelPrefix="View photo"
+              prevLabel="Previous"
+              nextLabel="Next"
+            />
+          </>
+        )}
       </section>
     </div>
   </div>

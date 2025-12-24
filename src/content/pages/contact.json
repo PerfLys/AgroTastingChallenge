@@ -1,0 +1,21 @@
+{
+  "titleFr": "Contact",
+  "titleEn": "Contact",
+  "descriptionFr": "Nous contacter pour toute question sur l’association ou l’Agro Tasting Challenge.",
+  "descriptionEn": "Get in touch for any question about the association or the Agro Tasting Challenge.",
+  "email": "association.oenologie@agroparistech.fr",
+  "phones": [
+    {
+      "name": "Félix NOËL QUARANTE (président)",
+      "number": "06 95 22 18 71"
+    },
+    {
+      "name": "Bérénice KLEIN (vice-présidente)",
+      "number": "07 82 43 57 57"
+    }
+  ],
+  "bodyFr": "Vous pouvez aussi nous écrire via les réseaux sociaux (liens en bas de page).\n",
+  "bodyEn": "You can also contact us through social media (links at the bottom of the page).\n",
+  "coverImage": "",
+  "_template": "contact"
+}
