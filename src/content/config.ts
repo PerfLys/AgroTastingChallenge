@@ -19,12 +19,11 @@ const pagesCollection = defineCollection({
     z.object({
       _template: z.literal('home'),
       title: z.string(),
-      heroTitle: z.string().optional(),
+      heroImage: z.string().optional(),
       heroSubtitle: z.string().optional(),
-      heroButtonEds: z.string().optional(),
-      heroButtonAtc: z.string().optional(),
-      featuredTitle: z.string().optional(),
-      featuredText: z.string().optional(),
+      heroSubtitleEn: z.string().optional(),
+      heroTextFr: z.string().optional(),
+      heroTextEn: z.string().optional(),
     }),
     z.object({
       _template: z.literal('partenaires'),

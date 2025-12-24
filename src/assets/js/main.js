@@ -56,23 +56,13 @@ window.stickyHeaderFuncionality = () => {
 };
 
 window.evaluateHeaderPosition = () => {
-	if (window.scrollY > 48) {
-		headerElement.firstElementChild.classList.add(...stickyClassesContainer);
-		headerElement.firstElementChild.classList.remove(
-			...unstickyClassesContainer,
-		);
-		headerElement.classList.add(...stickyClasses);
-		headerElement.classList.remove(...unstickyClasses);
-		// document.getElementById("menu").classList.add("top-[75px]");
-		// document.getElementById("menu").classList.remove("top-[75px]");
-	} else {
-		headerElement.firstElementChild.classList.remove(...stickyClassesContainer);
-		headerElement.firstElementChild.classList.add(...unstickyClassesContainer);
-		headerElement.classList.add(...unstickyClasses);
-		headerElement.classList.remove(...stickyClasses);
-		// document.getElementById("menu").classList.remove("top-[56px]");
-		// document.getElementById("menu").classList.add("top-[75px]");
-	}
+	// Always keep header opaque
+	headerElement.firstElementChild.classList.add(...stickyClassesContainer);
+	headerElement.firstElementChild.classList.remove(
+		...unstickyClassesContainer,
+	);
+	headerElement.classList.add(...stickyClasses);
+	headerElement.classList.remove(...unstickyClasses);
 };
 
 window.applyMenuItemClasses = () => {

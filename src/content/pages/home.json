@@ -1,10 +1,9 @@
 {
-  "_template": "home",
   "title": "Accueil",
-  "heroTitle": "Agro Tasting Challenge",
-  "heroSubtitle": "Un événement autour de la dégustation, des rencontres et du partage.",
-  "heroButtonEds": "Voir les éditions",
-  "heroButtonAtc": "Découvrir l’ATC",
-  "featuredTitle": "À la une",
-  "featuredText": "Retrouvez les photos et documents (PDF) de chaque édition, et ajoutez facilement les prochaines via le CMS."
+  "heroImage": "/uploads/ruinart-agro-paris-tech_mars-2025_1-3.jpg",
+  "heroSubtitle": "11ème édition – du 14 au 15 mars 2025",
+  "heroSubtitleEn": "11th edition – March 14-15, 2025",
+  "heroTextFr": "Bienvenue sur le site de l'AgroTastingChallenge, le concours de dégustation international organisé chaque année depuis 2015 par l'Association Œnologique d'AgroParisTech en partenariat avec la maison de champagne Ruinart. Depuis sa création, l'AgroTastingChallenge se veut être le reflet de l'enseignement dispensé à AgroParisTech et de ses valeurs. Ce concours de dégustation à l'aveugle réunit des étudiants des plus Grandes Écoles françaises et internationales.  L'objectif est d'offrir aux candidats un climat propice aux rencontres et aux échanges ainsi qu'un nouvel angle d'approche sur l'univers du vin. L'équipe d'étudiants, organisatrice, vous invite à découvrir l'événement au travers des différentes rubriques.",
+  "heroTextEn": "Welcome to the AgroTastingChallenge website, the international tasting competition organized annually since 2015 by the Œnological Association of AgroParisTech in partnership with the Ruinart champagne house. Since its creation, the AgroTastingChallenge has aimed to reflect the teaching provided at AgroParisTech and its values. This blind tasting competition brings together students from the most prestigious French and international Grandes Écoles. The objective is to offer candidates a climate conducive to meetings and exchanges as well as a new approach to the world of wine. The organizing student team invites you to discover the event through the different sections.",
+  "_template": "home"
 }

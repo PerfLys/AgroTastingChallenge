@@ -49,41 +49,14 @@ export default defineConfig({
             name: "year",
             label: "Année",
             required: true,
-
           },
           {
             type: "string",
             name: "description",
-            label: "Description",
+            label: "Date de l'édition",
             ui: {
               component: "textarea",
             },
-          },
-          {
-            type: "image",
-            name: "coverImage",
-            label: "Image de couverture",
-          },
-          {
-            type: "image",
-            name: "photos",
-            label: "Galerie photos",
-            list: true,
-          },
-          {
-            type: "image",
-            name: "pdfVinsAveugle",
-            label: "PDF — Vins à l'aveugle",
-          },
-          {
-            type: "image",
-            name: "pdfVinsTable",
-            label: "PDF — Vins servis à table",
-          },
-          {
-            type: "image",
-            name: "pdfVinsOfferts",
-            label: "PDF — Vins offerts",
           },
         ],
       },
@@ -111,34 +84,35 @@ export default defineConfig({
                 isTitle: true,
               },
               {
-                type: "string",
-                name: "heroTitle",
-                label: "Titre Hero",
+                type: "image",
+                name: "heroImage",
+                label: "Image Hero",
               },
               {
                 type: "string",
                 name: "heroSubtitle",
-                label: "Sous-titre Hero",
+                label: "Sous-titre Hero (Français) (ex: 11ème édition – du 14 au 15 mars 2025)",
               },
               {
                 type: "string",
-                name: "heroButtonEds",
-                label: "Bouton Éditions",
+                name: "heroSubtitleEn",
+                label: "Sous-titre Hero (English) (ex: 11th edition – March 14-15, 2025)",
               },
               {
                 type: "string",
-                name: "heroButtonAtc",
-                label: "Bouton ATC",
+                name: "heroTextFr",
+                label: "Texte description (Français)",
+                ui: {
+                  component: "textarea",
+                },
               },
               {
                 type: "string",
-                name: "featuredTitle",
-                label: "Titre Mis à la une",
-              },
-              {
-                type: "string",
-                name: "featuredText",
-                label: "Texte Mis à la une",
+                name: "heroTextEn",
+                label: "Texte description (English)",
+                ui: {
+                  component: "textarea",
+                },
               },
             ],
           },
