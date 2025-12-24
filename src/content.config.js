@@ -5,6 +5,8 @@ const edition = defineCollection({
   loader: glob({ pattern: "**/*.json", base: "./src/content/editions" }),
 	schema: z.object({
     year: z.number(),
+    startDate: z.string().datetime().optional(),
+    endDate: z.string().datetime().optional(),
     description: z.string().optional(),
     coverImage: z.string().optional(),
     photos: z.array(z.string()).optional(),

@@ -6,6 +6,7 @@ import { getCollection } from "astro:content";
 import PdfDownloadButton from "@/components/editions/PdfDownloadButton.astro";
 import PhotoGallery from "@/components/editions/PhotoGallery.astro";
 import { getEditionAssetPhotos } from "@/utils/editionAssets";
+import { formatEditionSentence } from "@/utils/editionDates";
 
 export async function getStaticPaths() {
   const editions = await getCollection("edition");
@@ -22,17 +23,18 @@ if (!edition) {
   return Astro.redirect("/404");
 }
 
-const { year, description, photos = [], pdfVinsAveugle, pdfVinsTable, pdfVinsOfferts } = edition.data;
+const { year, description, startDate, endDate, photos = [], pdfVinsAveugle, pdfVinsTable, pdfVinsOfferts } = edition.data;
 const cmsPhotos = (Array.isArray(photos) ? photos : []).filter(Boolean);
 const assetPhotos = await getEditionAssetPhotos(year);
 const galleryPhotos = cmsPhotos.length > 0 ? cmsPhotos : assetPhotos;
+const dateDescription = formatEditionSentence(year, { startDate, endDate }, "en-US");
 ---
 
 <Layout title={`Edition ${year}`}>
   <div class="site-container mx-auto px-4 mt-10">
     <PageHeader
       title={`Edition ${year}`}
-      description={description || "Photos and documents for this edition."}
+      description={dateDescription || description || "Photos and documents for this edition."}
     />
 
     <div class="inner-container mx-auto">

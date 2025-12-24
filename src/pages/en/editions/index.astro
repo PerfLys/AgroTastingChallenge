@@ -4,6 +4,7 @@ import PageHeader from "@/components/elements/PageHeader.astro";
 import { getCollection } from "astro:content";
 import EditionCard from "@/components/editions/EditionCard.astro";
 import { getEditionAssetPhotos } from "@/utils/editionAssets";
+import { formatEditionSentence } from "@/utils/editionDates";
 
 const editions = (await getCollection("edition"))
   .slice()
@@ -15,7 +16,13 @@ const editionCards = await Promise.all(
     const cmsPhotos = (Array.isArray(e.data.photos) ? e.data.photos : []).filter(Boolean);
     const assetPhotos = await getEditionAssetPhotos(year);
     const coverImage = e.data.coverImage || cmsPhotos[0] || assetPhotos[0];
+    const dateSubtitle = formatEditionSentence(
+      year,
+      { startDate: e.data.startDate, endDate: e.data.endDate },
+      "en-US",
+    );
     const subtitle =
+      dateSubtitle ||
       e.data.description ||
       (coverImage ? "Photo gallery" : "PDFs (photos coming soon)");
     return { year, coverImage, subtitle };

@@ -51,9 +51,48 @@ export default defineConfig({
             required: true,
           },
           {
+            type: "datetime",
+            name: "startDate",
+            label: "Date de début",
+            required: true,
+            // https://tina.io/docs/reference/types/datetime
+            ui: {
+              dateFormat: "YYYY-MM-DD",
+              timeFormat: false,
+              // Persist as ISO 8601 (UTC)
+              parse: (value) => {
+                if (!value) return value;
+                if (typeof value === "string") return value;
+                const v: any = value;
+                if (typeof v?.toDate === "function") return v.toDate().toISOString();
+                if (v instanceof Date) return v.toISOString();
+                return String(v);
+              },
+            },
+          },
+          {
+            type: "datetime",
+            name: "endDate",
+            label: "Date de fin",
+            // https://tina.io/docs/reference/types/datetime
+            ui: {
+              dateFormat: "YYYY-MM-DD",
+              timeFormat: false,
+              // Persist as ISO 8601 (UTC)
+              parse: (value) => {
+                if (!value) return value;
+                if (typeof value === "string") return value;
+                const v: any = value;
+                if (typeof v?.toDate === "function") return v.toDate().toISOString();
+                if (v instanceof Date) return v.toISOString();
+                return String(v);
+              },
+            },
+          },
+          {
             type: "string",
             name: "description",
-            label: "Date de l'édition",
+            label: "Description (optionnel)",
             ui: {
               component: "textarea",
             },
