@@ -81,7 +81,7 @@ const totalPhotosCount = photos.length;
       </div>
     </dialog>
 
-    <script is:inline define:vars={{ galleryId, photos: photos, totalPhotosCount, altPrefix }}>
+    <script is:inline define:vars={{ galleryId, photos: photos, altPrefix }}>
       (() => {
         const root = document.querySelector(`[data-gallery-root="${galleryId}"]`);
         const dialog = document.querySelector(`[data-gallery-dialog="${galleryId}"]`);
@@ -94,7 +94,7 @@ const totalPhotosCount = photos.length;
         if (!root || !dialog || !dialogImg) return;
 
         let currentIndex = 0;
-        const totalPhotos = Array.isArray(photos) ? photos.length : (totalPhotosCount || 0);
+        const totalPhotos = photos.length;
 
         function updateImage(index) {
           if (index < 0 || index >= totalPhotos) return;

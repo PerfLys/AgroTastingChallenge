@@ -49,7 +49,7 @@ export default defineConfig({
             name: "year",
             label: "Année",
             required: true,
-            isTitle: true,
+
           },
           {
             type: "string",
