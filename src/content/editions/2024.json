@@ -1,6 +1,7 @@
 {
   "year": 2024,
-  "description": "",
+  "description": "L'édition 2024 s'est déroulé en avril 2024",
+  "coverImage": "/uploads/2024/ruinart-atc-02237-leo-ginailhac.jpg",
   "photos": [
     "/uploads/2024/ruinart-atc-01794-leo-ginailhac-1.jpg",
     "/uploads/2024/ruinart-atc-01814-leo-ginailhac-1.jpg",
@@ -171,7 +172,7 @@
     "/uploads/2024/ruinart-atc-03136-leo-ginailhac.jpg",
     "/uploads/2024/ruinart-atc-03142-leo-ginailhac.jpg"
   ],
-  "pdfVinsAveugle": "",
-  "pdfVinsTable": "",
-  "pdfVinsOfferts": ""
+  "pdfVinsAveugle": "/uploads/2024-vins-aveugle.pdf",
+  "pdfVinsTable": "/uploads/2024-plaquette-vins-servis-a-table.pdf",
+  "pdfVinsOfferts": "/uploads/2024-plaquette-lots-gagnes.pdf"
 }

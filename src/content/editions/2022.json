@@ -1,10 +1,9 @@
 {
   "year": 2022,
   "description": "",
+  "coverImage": "/uploads/2023/champagne-ruinart-agro-paris-tech_avril-2023_17.jpg",
   "photos": [],
-  "pdfVinsAveugle": "",
-  "pdfVinsTable": "",
-  "pdfVinsOfferts": ""
+  "pdfVinsAveugle": "/uploads/vins_a_l_aveugle_2022-2.pdf",
+  "pdfVinsTable": "/uploads/plaquette-vins-servis-a-table.pdf",
+  "pdfVinsOfferts": "/uploads/plaquette-lots-gagnes.pdf"
 }
-
-

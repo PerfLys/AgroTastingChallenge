@@ -1,6 +1,7 @@
 {
   "year": 2023,
   "description": "",
+  "coverImage": "/uploads/2023/champagne-ruinart-agro-paris-tech_avril-2023_50.jpg",
   "photos": [
     "/uploads/2023/atc-ruinart-2023-labraise-01.jpg",
     "/uploads/2023/atc-ruinart-2023-labraise-02.jpg",
@@ -142,7 +143,7 @@
     "/uploads/2023/champagne-ruinart-agro-paris-tech_avril-2023_8.jpg",
     "/uploads/2023/champagne-ruinart-agro-paris-tech_avril-2023_9.jpg"
   ],
-  "pdfVinsAveugle": "",
-  "pdfVinsTable": "",
-  "pdfVinsOfferts": ""
+  "pdfVinsAveugle": "/uploads/2023-vins-aveugle.pdf",
+  "pdfVinsTable": "/uploads/2023-plaquette-vins-servis-a-table.pdf",
+  "pdfVinsOfferts": "/uploads/2023-plaquette-lots-gagnes.pdf"
 }

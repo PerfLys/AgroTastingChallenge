@@ -58,6 +58,37 @@ export default defineConfig({
               component: "textarea",
             },
           },
+          {
+            type: "image",
+            name: "coverImage",
+            label: "Image de couverture",
+            description: "Image principale utilisée comme couverture (optionnel).",
+          },
+          {
+            type: "image",
+            name: "photos",
+            label: "Photos",
+            list: true,
+            description: "Galerie photos de l'édition (liste d'images).",
+          },
+          {
+            type: "image",
+            name: "pdfVinsAveugle",
+            label: "PDF – Vins à l’aveugle",
+            description: "Upload/selection du PDF via le media manager (stocké dans /public/uploads).",
+          },
+          {
+            type: "image",
+            name: "pdfVinsTable",
+            label: "PDF – Vins servis à table",
+            description: "Upload/selection du PDF via le media manager (stocké dans /public/uploads).",
+          },
+          {
+            type: "image",
+            name: "pdfVinsOfferts",
+            label: "PDF – Vins offerts",
+            description: "Upload/selection du PDF via le media manager (stocké dans /public/uploads).",
+          },
         ],
       },
       {
