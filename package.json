@@ -1,8 +1,8 @@
 {
-	"name": "astro-rico-portfolio",
+	"name": "AgroTastingChallenge",
 	"type": "module",
 	"version": "1.0.0",
-	"description": "A modern, high-performance portfolio website template for designers built with Astro. Features retro blue theme, dark mode, and beautiful animations.",
+	"description": "L'Agro Tasting Challenge (ATC) est un événement autour de la dégustation et du partage.",
 	"keywords": [
 		"astro",
 		"portfolio",
@@ -15,26 +15,26 @@
 		"responsive"
 	],
 	"author": {
-		"name": "Ricoui",
-		"email": "hello@ricoui.com",
-		"url": "https://ricoui.com"
+		"name": "AgroTastingChallenge",
+		"email": "association.oenologie@agroparistech.fr",
+		"url": "https://agrotastingchallenge.fr"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ricocc/ricoui-portfolio.git"
+		"url": "https://github.com/agrotastingchallenge/agrotastingchallenge.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ricocc/ricoui-portfolio/issues"
+		"url": "https://github.com/agrotastingchallenge/agrotastingchallenge/issues"
 	},
-	"homepage": "https://github.com/ricocc/ricoui-portfolio#readme",
-	"license": "Apache-2.0",
+	"homepage": "https://github.com/agrotastingchallenge/agrotastingchallenge#readme",
 	"scripts": {
 		"dev": "tinacms dev -c \"astro dev\"",
 		"start": "astro dev",
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
-		"check": "biome check --apply-unsafe ."
+		"check": "biome check --apply-unsafe .",
+        "deploy": "wrangler deploy"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.5",
@@ -47,7 +47,8 @@
 		"postcss": "^8.4.31",
 		"tailwindcss": "^4.1.14",
 		"typescript": "^5.4.5",
-		"vite": "^5.2.11"
+		"vite": "^5.2.11",
+		"wrangler": "^4.54.0"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^4.3.10",
