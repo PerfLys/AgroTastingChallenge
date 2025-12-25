@@ -1,64 +1,106 @@
-# Astro Starter Kit: Blog
+# Agro Tasting Challenge
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/astro-blog-starter-template)
+Website for the Agro Tasting Challenge (ATC), an international wine tasting competition organized annually since 2015 by the Association Œnologique d'AgroParisTech.
 
-![Astro Template Preview](https://github.com/withastro/astro/assets/2244813/ff10799f-a816-4703-b967-c78997e8323d)
+## About
 
-<!-- dash-content-start -->
+The Agro Tasting Challenge is an event centered around wine tasting and sharing. This website showcases past editions, participants, rules, and information about the competition. The site is bilingual (French/English) and features a content management system for easy updates.
 
-Create a blog with Astro and deploy it on Cloudflare Workers as a [static website](https://developers.cloudflare.com/workers/static-assets/).
+## Tech Stack
 
-Features:
-
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and OpenGraph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-- ✅ Built-in Observability logging
-
-<!-- dash-content-end -->
+- **Framework**: [Astro](https://astro.build)
+- **Deployment**: [Cloudflare Workers](https://developers.cloudflare.com/workers/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+- **Content Management**: [TinaCMS](https://tina.io)
+- **Language**: TypeScript
 
 ## Getting Started
 
-Outside of this repo, you can start a new project with this template using [C3](https://developers.cloudflare.com/pages/get-started/c3/) (the `create-cloudflare` CLI):
+### Prerequisites
+
+- Node.js (v18 or higher)
+- pnpm (package manager)
+
+### Installation
+
+Install dependencies:
 
 ```bash
-npm create cloudflare@latest -- --template=cloudflare/templates/astro-blog-starter-template
+pnpm install
 ```
 
-A live public deployment of this template is available at [https://astro-blog-starter-template.templates.workers.dev](https://astro-blog-starter-template.templates.workers.dev)
+### Development
 
-## 🚀 Project Structure
+Start the development server with TinaCMS:
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+```bash
+pnpm run dev
+```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+The site will be available at `http://localhost:5200`
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+For development without TinaCMS:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+pnpm run start
+```
 
-## 🧞 Commands
+### Building
 
-All commands are run from the root of the project, from a terminal:
+Before building, you need to build TinaCMS:
 
-| Command                           | Action                                           |
-| :-------------------------------- | :----------------------------------------------- |
-| `npm install`                     | Installs dependencies                            |
-| `npm run dev`                     | Starts local dev server at `localhost:4321`      |
-| `npm run build`                   | Build your production site to `./dist/`          |
-| `npm run preview`                 | Preview your build locally, before deploying     |
-| `npm run astro ...`               | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help`         | Get help using the Astro CLI                     |
-| `npm run build && npm run deploy` | Deploy your production site to Cloudflare        |
-| `npm wrangler tail`               | View real-time logs for all Workers              |
+```bash
+npx tinacms build
+```
 
-## 👀 Want to learn more?
+Then build the production site:
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+pnpm run build
+```
 
-## Credit
+The built files will be in the `./dist/` directory.
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+> **Note**: In development mode (`pnpm run dev`), TinaCMS is automatically built as part of the dev command.
+
+Preview the production build locally:
+
+```bash
+pnpm run preview
+```
+
+### Deployment
+
+Deploy to Cloudflare Workers:
+
+```bash
+npx tinacms build && pnpm run build && pnpm run deploy
+```
+
+## Project Structure
+
+- `src/pages/` - Astro pages (routes)
+- `src/components/` - Reusable components
+- `src/content/` - Content collections (editions, pages)
+- `src/layouts/` - Page layouts
+- `public/` - Static assets (images, PDFs, etc.)
+- `tina/` - TinaCMS configuration and generated files
+
+## Available Commands
+
+| Command                | Action                                    |
+| :--------------------- | :---------------------------------------- |
+| `pnpm install`         | Installs dependencies                     |
+| `pnpm run dev`         | Starts dev server with TinaCMS            |
+| `pnpm run start`       | Starts dev server without TinaCMS         |
+| `pnpm run build`       | Builds production site to `./dist/`       |
+| `pnpm run preview`     | Preview production build locally          |
+| `pnpm run deploy`      | Deploy to Cloudflare Workers              |
+| `pnpm run check`       | Run linting, type checking, and dry-run   |
+| `pnpm run cf-typegen`  | Generate Cloudflare Workers types         |
+
+## Contact
+
+For questions or issues, contact: association.oenologie@agroparistech.fr
+
+Website: https://agrotastingchallenge.fr
