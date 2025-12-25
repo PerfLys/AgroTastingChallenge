@@ -1,11 +1,22 @@
 {
-  	"extends": "astro/tsconfigs/base",
+	"extends": "astro/tsconfigs/strict",
+	"include": [".astro/types.d.ts", "**/*"],
+	"exclude": [
+		"dist",
+		"public",
+		"node_modules"
+	],
 	"compilerOptions": {
-		"strictNullChecks": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": [
+				"src/*"
+			]
 		},
-		"typeRoots": ["./node_modules/@types", "./src/types",".vscode", "dist"]
+		"strictNullChecks": true,
+		"types": [
+			"./worker-configuration.d.ts",
+			"node"
+		]
 	}
 }

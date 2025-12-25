@@ -1,19 +1,7 @@
 {
 	"name": "AgroTastingChallenge",
-	"type": "module",
 	"version": "1.0.0",
 	"description": "L'Agro Tasting Challenge (ATC) est un événement autour de la dégustation et du partage.",
-	"keywords": [
-		"astro",
-		"portfolio",
-		"designer",
-		"website",
-		"template",
-		"tailwindcss",
-		"blog",
-		"dark-mode",
-		"responsive"
-	],
 	"author": {
 		"name": "AgroTastingChallenge",
 		"email": "association.oenologie@agroparistech.fr",
@@ -27,14 +15,31 @@
 		"url": "https://github.com/agrotastingchallenge/agrotastingchallenge/issues"
 	},
 	"homepage": "https://github.com/agrotastingchallenge/agrotastingchallenge#readme",
-	"scripts": {
-		"dev": "tinacms dev -c \"astro dev\"",
-		"start": "astro dev",
-		"build": "astro check && astro build",
-		"preview": "astro preview",
-		"astro": "astro",
-		"check": "biome check --apply-unsafe .",
-        "deploy": "wrangler deploy"
+	"cloudflare": {
+		"label": "Agro Tasting Challenge",
+		"products": [
+			"Workers"
+		],
+		"categories": [],
+		"preview_icon_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/394ca3c9-d351-4036-035a-9f6dfa26dd00/public",
+		"preview_image_url": "https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/f40a6577-eed5-4f3e-cef4-b5ef0a1be100/preview",
+		"publish": true
+	},
+	"dependencies": {
+		"@astrojs/cloudflare": "12.6.12",
+		"@astrojs/mdx": "4.3.12",
+		"@astrojs/rss": "4.0.14",
+		"@astrojs/sitemap": "3.6.0",
+		"@lucide/astro": "^0.546.0",
+		"@tailwindcss/vite": "^4.1.14",
+		"aos": "^2.3.4",
+		"astro": "5.16.2",
+		"marked": "^17.0.1",
+		"matter-js": "^0.20.0",
+		"motion": "^12.23.24",
+		"sharp": "^0.34.4",
+		"tinacms": "^3.1.2",
+		"typescript": "5.9.3"
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.5",
@@ -43,24 +48,22 @@
 		"@tinacms/cli": "^2.0.5",
 		"@types/matter-js": "^0.20.2",
 		"@types/node": "^25.0.3",
-		"astro": "^5.15.4",
 		"postcss": "^8.4.31",
 		"tailwindcss": "^4.1.14",
-		"typescript": "^5.4.5",
-		"vite": "^5.2.11",
-		"wrangler": "^4.54.0"
+		"vite": "^6.4.1",
+		"wrangler": "4.54.0"
 	},
-	"dependencies": {
-		"@astrojs/mdx": "^4.3.10",
-		"@astrojs/rss": "^4.0.13",
-		"@astrojs/sitemap": "^3.6.0",
-		"@lucide/astro": "^0.546.0",
-		"@tailwindcss/vite": "^4.1.14",
-		"aos": "^2.3.4",
-		"marked": "^17.0.1",
-		"matter-js": "^0.20.0",
-		"motion": "^12.23.24",
-		"sharp": "^0.34.4",
-		"tinacms": "^3.1.2"
-	}
+	"private": true,
+	"scripts": {
+		"astro": "astro",
+		"build": "astro build",
+		"postbuild": "cp -f .assetsignore dist/.assetsignore",
+		"cf-typegen": "wrangler types",
+		"check": "biome check --apply-unsafe . && astro check && tsc && wrangler deploy --dry-run",
+		"deploy": "wrangler deploy",
+		"dev": "tinacms dev -c \"astro dev\"",
+		"preview": "astro build && wrangler dev",
+		"start": "astro dev"
+	},
+	"type": "module"
 }
