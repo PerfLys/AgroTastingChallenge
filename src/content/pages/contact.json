@@ -6,16 +6,12 @@
   "email": "association.oenologie@agroparistech.fr",
   "phones": [
     {
-      "name": "Félix NOËL QUARANTE (président)",
-      "number": "06 95 22 18 71"
-    },
-    {
-      "name": "Bérénice KLEIN (vice-présidente)",
-      "number": "07 82 43 57 57"
-    },
-    {
       "name": "Maéva Tchonang (Présidente)",
       "number": "+33 7 82 00 90 65"
+    },
+    {
+      "name": "Lysandre Perfetti (Vice-Président)",
+      "number": "+33 7 68 01 29 30"
     }
   ],
   "bodyFr": "Vous pouvez aussi nous écrire via les réseaux sociaux.\n",
