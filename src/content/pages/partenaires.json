@@ -1,5 +1,4 @@
 {
-  "_template": "partenaires",
   "titleFr": "Partenaires",
   "titleEn": "Partners",
   "partnersDescriptionFr": "Merci à celles et ceux qui soutiennent l’Agro Tasting Challenge.",
@@ -9,19 +8,20 @@
   "partnersList": [
     {
       "name": "iDEALwine",
-      "logo": "/uploads/logo-idealwine.svg",
-      "websiteUrl": "https://www.idealwine.com/fr",
       "slug": "idealwine",
-      "descriptionFr": "",
+      "websiteUrl": "https://www.idealwine.com/fr",
+      "logo": "/uploads/logo-idealwine.svg",
+      "descriptionFr": "Partenaire depuis maintenant plusieurs éditions de l’ATC…",
       "descriptionEn": ""
     },
     {
       "name": "WineParis",
-      "logo": "/uploads/logoo wp.png",
-      "websiteUrl": "https://wineparis.com/newfront",
       "slug": "wineparis",
+      "websiteUrl": "https://wineparis.com/newfront",
+      "logo": "/uploads/logoo wp.png",
       "descriptionFr": "",
       "descriptionEn": ""
     }
-  ]
+  ],
+  "_template": "partenaires"
 }
