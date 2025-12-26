@@ -12,11 +12,6 @@
       "name": "WineParis",
       "logo": "/uploads/logoo wp.png",
       "url": "#https://wineparis.com/newfront"
-    },
-    {
-      "name": "Partenaire 3",
-      "logo": "",
-      "url": "#"
     }
   ],
   "_template": "partenaires"
