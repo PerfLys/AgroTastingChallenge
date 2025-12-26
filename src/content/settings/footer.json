@@ -1,0 +1,21 @@
+{
+  "socialLinks": [
+    {
+      "platform": "email",
+      "label": "Email",
+      "url": "mailto:association.oenologie@agroparistech.fr"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/agrotastingchallenge/"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/company/atc-agro-tasting-challenge/"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/AgroTastingChallenge/"
+    }
+  ]
+}

@@ -47,7 +47,29 @@ const pagesCollection = defineCollection({
   ]),
 });
 
+const settingsCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    socialLinks: z.array(
+      z.object({
+        platform: z.enum([
+          'email',
+          'instagram',
+          'linkedin',
+          'facebook',
+          'x',
+          'github',
+          'youtube',
+        ]),
+        label: z.string().optional(),
+        url: z.string(),
+      })
+    ).optional(),
+  }),
+});
+
 export const collections = {
   editions: editionsCollection,
   pages: pagesCollection,
+  settings: settingsCollection,
 };

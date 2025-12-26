@@ -6,7 +6,7 @@ export const siteConfig = {
 	title: "Agro Tasting Challenge",
 	author: "Agro Tasting Challenge",
 	url: SITE_URL,
-	mail: "contact@agrotastingchallenge.fr",
+	mail: "association.oenologie@agroparistech.fr",
 	utm: {
 		source: `${SITE_URL}`,
 		medium: "referral",
@@ -25,7 +25,7 @@ export const siteConfig = {
 export const socialLinks = [
 	{
 		name: "Email",
-		url: "mailto:contact@agrotastingchallenge.fr",
+		url: "mailto:association.oenologie@agroparistech.fr",
 		icon: `<svg class="ic-mail icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4.236-7.382 4.612a2 2 0 0 1-2.236 0L4 8.236V6l7.764 4.852a.5.5 0 0 0 .472 0L20 6v2.236Z"/></svg>`,
 	},
 ];

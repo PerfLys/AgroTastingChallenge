@@ -124,6 +124,69 @@ export default defineConfig({
         ],
       },
       {
+        name: "settings",
+        label: "Réglages",
+        path: "src/content/settings",
+        format: "json",
+        ui: {
+          allowedActions: {
+            create: false,
+            delete: false,
+          },
+          filename: {
+            readonly: true,
+          },
+        },
+        fields: [
+          {
+            type: "object",
+            name: "socialLinks",
+            label: "Réseaux sociaux (footer)",
+            list: true,
+            description:
+              "Liens affichés dans le footer. Choisissez une plateforme et renseignez l’URL (mailto:... pour l’email).",
+            ui: {
+              itemProps: (item) => {
+                const label = item?.label || item?.platform || "Lien";
+                const url = item?.url ? ` — ${item.url}` : "";
+                return { label: `${label}${url}` };
+              },
+            },
+            fields: [
+              {
+                type: "string",
+                name: "platform",
+                label: "Plateforme",
+                required: true,
+                options: [
+                  { label: "Email", value: "email" },
+                  { label: "Instagram", value: "instagram" },
+                  { label: "LinkedIn", value: "linkedin" },
+                  { label: "Facebook", value: "facebook" },
+                  { label: "X (Twitter)", value: "x" },
+                  { label: "GitHub", value: "github" },
+                  { label: "YouTube", value: "youtube" },
+                ],
+              },
+              {
+                type: "string",
+                name: "label",
+                label: "Label (optionnel)",
+                description: "Nom affiché au survol (tooltip) et pour l’accessibilité.",
+              },
+              {
+                type: "string",
+                name: "url",
+                label: "URL",
+                required: true,
+                description:
+                  "Ex: https://... (ouvre un nouvel onglet) ou mailto:contact@... pour l’email.",
+              },
+            ],
+          },
+        ],
+      },
+      {
         name: "pages",
         label: "Pages",
         path: "src/content/pages",
