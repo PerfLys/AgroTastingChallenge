@@ -1,4 +1,9 @@
 ---
+import { getImage } from "astro:assets";
+import fs from "node:fs/promises";
+import path from "node:path";
+import sharp from "sharp";
+
 interface Props {
   photos: string[];
   altPrefix?: string;
@@ -19,6 +24,72 @@ const {
   nextLabel = "Suivant",
 } = Astro.props;
 const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
+
+async function getLocalImageDimensions(src: string): Promise<{ width: number; height: number } | null> {
+  // Only handle site-local absolute paths like `/uploads/...` living in `public/`.
+  if (!src.startsWith("/") || src.startsWith("//") || src.includes("://")) return null;
+  const fsPath = path.join(process.cwd(), "public", src);
+  try {
+    await fs.access(fsPath);
+    const meta = await sharp(fsPath).metadata();
+    if (meta.width && meta.height) return { width: meta.width, height: meta.height };
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
+// For CMS/public string URLs (e.g. `/uploads/...`), Astro's Cloudflare image service can still
+// generate optimized variants at runtime in production.
+const sourceDimensions = await Promise.all(photos.map(getLocalImageDimensions));
+
+const thumbnailImages = await Promise.all(
+  photos.map((src) =>
+    getImage({
+      src,
+      width: 400,
+      height: 300,
+      fit: "cover",
+      format: "webp",
+      quality: 55,
+      densities: [1, 2],
+    }),
+  ),
+);
+
+const lightboxImages = await Promise.all(
+  photos.map(async (src, idx) => {
+    const dim = sourceDimensions[idx];
+    if (dim) {
+      const targetWidth = Math.min(1600, dim.width);
+      const targetHeight = Math.round((dim.height * targetWidth) / dim.width);
+      return getImage({
+        src,
+        width: targetWidth,
+        height: targetHeight,
+        fit: "contain",
+        format: "webp",
+        quality: 80,
+      });
+    }
+
+    // Remote/unknown images must provide dimensions; `inferSize` will fetch metadata.
+    return getImage({
+      src,
+      width: 1600,
+      inferSize: true,
+      fit: "contain",
+      format: "webp",
+      quality: 80,
+    });
+  }),
+);
+
+const lightboxPayload = lightboxImages.map((img, idx) => ({
+  // Use the thumbnail as an instant placeholder while the large image loads.
+  thumbSrc: thumbnailImages[idx]?.src,
+  src: img.src,
+}));
 ---
 
 {photos.length === 0 ? null : (
@@ -27,6 +98,7 @@ const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
       {photos.map((src, idx) => {
         // Load first 6 images eagerly, rest lazily with low priority
         const isAboveFold = idx < 6;
+        const thumb = thumbnailImages[idx];
         return (
           <button
             type="button"
@@ -36,7 +108,8 @@ const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
             aria-label={`${viewPhotoLabelPrefix} ${idx + 1}`}
           >
             <img
-              src={src}
+              src={thumb?.src ?? src}
+              srcset={thumb?.srcSet?.attribute}
               alt={`${altPrefix} ${idx + 1}`}
               class="w-full h-full object-cover aspect-[4/3] group-hover:scale-[1.03] transition-transform duration-300"
               loading={isAboveFold ? "eager" : "lazy"}
@@ -71,7 +144,14 @@ const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
             </svg>
           </button>
           <div class="atc-lightbox-image-wrapper">
-            <img alt={previewTitle} class="atc-lightbox-image" data-lightbox-img />
+            <img
+              alt={previewTitle}
+              class="atc-lightbox-image"
+              data-lightbox-img
+              decoding="async"
+              loading="eager"
+              sizes="100vw"
+            />
           </div>
           <button type="button" class="atc-lightbox-nav atc-lightbox-next" aria-label={nextLabel} data-nav="next">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -82,7 +162,7 @@ const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
       </div>
     </dialog>
 
-    <script is:inline define:vars={{ galleryId, photos: photos, altPrefix }}>
+    <script is:inline define:vars={{ galleryId, photos: lightboxPayload, altPrefix }}>
       (() => {
         const root = document.querySelector(`[data-gallery-root="${galleryId}"]`);
         const dialog = document.querySelector(`[data-gallery-dialog="${galleryId}"]`);
@@ -97,26 +177,44 @@ const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
         let currentIndex = 0;
         const totalPhotos = photos.length;
 
+        function preload(url) {
+          if (!url) return;
+          const img = new Image();
+          img.decoding = "async";
+          img.src = url;
+        }
+
         function updateImage(index) {
           if (index < 0 || index >= totalPhotos) return;
           currentIndex = index;
-          const src = photos[index];
+          const item = photos[index] || {};
           
           // Show loading state
           dialogImg.style.opacity = "0.5";
-          
-          // Preload image
+
+          // Instant placeholder (thumbnail)
+          if (item.thumbSrc) {
+            dialogImg.setAttribute("src", item.thumbSrc);
+          }
+
+          // Preload large image, then swap in
           const img = new Image();
           img.onload = () => {
-            dialogImg.setAttribute("src", src);
+            if (item.src) dialogImg.setAttribute("src", item.src);
             dialogImg.setAttribute("alt", `${altPrefix} ${index + 1}`);
             dialogImg.style.opacity = "1";
           };
           img.onerror = () => {
             dialogImg.style.opacity = "1";
-            console.warn("Failed to load image:", src);
+            console.warn("Failed to load image:", item.src || item.thumbSrc);
           };
-          img.src = src;
+          img.src = item.src || item.thumbSrc || "";
+
+          // Prefetch neighbors for smoother navigation
+          const next = photos[index + 1];
+          const prev = photos[index - 1];
+          preload(next?.src);
+          preload(prev?.src);
           
           if (counter) {
             counter.textContent = `${index + 1} / ${totalPhotos}`;

@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageHeader from "@/components/elements/PageHeader.astro";
+import OptimizedImg from "@/components/elements/OptimizedImg.astro";
 import partenairesData from "@/content/pages/partenaires.json";
 
 const { title, partnersDescription, partnersIntro, partnersList } = partenairesData;
@@ -27,7 +28,17 @@ const { title, partnersDescription, partnersIntro, partnersList } = partenairesD
               class="block group rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5 text-center transition-colors hover:border-primary/50"
             >
               {partner.logo ? (
-                <img src={partner.logo} alt={partner.name} class="mx-auto h-16 w-auto object-contain mb-3" />
+                <OptimizedImg
+                  src={partner.logo}
+                  alt={partner.name || "Logo partenaire"}
+                  width={256}
+                  height={64}
+                  class="mx-auto h-16 w-auto object-contain mb-3"
+                  loading="lazy"
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                  fit="contain"
+                  quality={70}
+                />
               ) : (
                 <div class="h-16 flex items-center justify-center text-4xl text-neutral-300">
                   <span class="sr-only">Logo</span>
