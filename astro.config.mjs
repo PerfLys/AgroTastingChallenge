@@ -17,10 +17,17 @@ export default defineConfig({
 	site: siteUrl,
 	base: "/",
 	integrations: [mdx(), sitemap()],
+	// Cloudflare adapter auto-enables KV-backed sessions unless a driver is set.
+	// This site doesn't currently use sessions, so keep it simple and avoid KV bindings.
+	session: {
+		driver: "memory",
+	},
 	adapter: cloudflare({
 		platformProxy: {
 			enabled: true,
 		},
+		// Explicitly set to suppress Cloudflare sharp-at-runtime warning (compile-time optimization).
+		imageService: "compile",
 	}),
 	server: {
 		port: 5200,
