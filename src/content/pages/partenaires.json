@@ -1,13 +1,12 @@
 {
-  "_template": "partenaires",
   "title": "Partenaires",
   "partnersDescription": "Merci à celles et ceux qui soutiennent l’Agro Tasting Challenge.",
   "partnersIntro": "Vous pourrez ajouter ici la liste des partenaires (logos + liens). Si vous le souhaitez, on peut aussi gérer cette page via TinaCMS plus tard.",
   "partnersList": [
     {
       "name": "Partenaire 1",
-      "logo": "",
-      "url": "#"
+      "logo": "/uploads/logo-idealwine.svg",
+      "url": "#https://www.idealwine.com/fr"
     },
     {
       "name": "Partenaire 2",
@@ -19,5 +18,6 @@
       "logo": "",
       "url": "#"
     }
-  ]
+  ],
+  "_template": "partenaires"
 }
