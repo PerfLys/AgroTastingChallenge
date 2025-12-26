@@ -1,18 +1,27 @@
 {
-  "title": "Partenaires",
-  "partnersDescription": "Merci à celles et ceux qui soutiennent l’Agro Tasting Challenge.",
-  "partnersIntro": "Vous pourrez ajouter ici la liste des partenaires (logos + liens). Si vous le souhaitez, on peut aussi gérer cette page via TinaCMS plus tard.",
+  "_template": "partenaires",
+  "titleFr": "Partenaires",
+  "titleEn": "Partners",
+  "partnersDescriptionFr": "Merci à celles et ceux qui soutiennent l’Agro Tasting Challenge.",
+  "partnersDescriptionEn": "Thank you to everyone supporting the Agro Tasting Challenge.",
+  "partnersIntroFr": "Découvrez les partenaires qui accompagnent l’Agro Tasting Challenge.",
+  "partnersIntroEn": "Discover the partners supporting the Agro Tasting Challenge.",
   "partnersList": [
     {
       "name": "iDEALwine",
       "logo": "/uploads/logo-idealwine.svg",
-      "url": "#https://www.idealwine.com/fr"
+      "websiteUrl": "https://www.idealwine.com/fr",
+      "slug": "idealwine",
+      "descriptionFr": "",
+      "descriptionEn": ""
     },
     {
       "name": "WineParis",
       "logo": "/uploads/logoo wp.png",
-      "url": "#https://wineparis.com/newfront"
+      "websiteUrl": "https://wineparis.com/newfront",
+      "slug": "wineparis",
+      "descriptionFr": "",
+      "descriptionEn": ""
     }
-  ],
-  "_template": "partenaires"
+  ]
 }

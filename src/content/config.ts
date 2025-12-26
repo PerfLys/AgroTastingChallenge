@@ -27,14 +27,20 @@ const pagesCollection = defineCollection({
     }),
     z.object({
       _template: z.literal('partenaires'),
-      title: z.string(),
-      partnersDescription: z.string().optional(),
-      partnersIntro: z.string().optional(),
+      titleFr: z.string(),
+      titleEn: z.string(),
+      partnersDescriptionFr: z.string().optional(),
+      partnersDescriptionEn: z.string().optional(),
+      partnersIntroFr: z.string().optional(),
+      partnersIntroEn: z.string().optional(),
       partnersList: z.array(
         z.object({
-          name: z.string().optional(),
+          name: z.string(),
+          slug: z.string(),
           logo: z.string().optional(),
-          url: z.string().optional(),
+          websiteUrl: z.string().optional(),
+          descriptionFr: z.string().optional(),
+          descriptionEn: z.string().optional(),
         })
       ).optional(),
     }),

@@ -1,0 +1,89 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/elements/PageHeader.astro";
+import OptimizedImg from "@/components/elements/OptimizedImg.astro";
+import partenairesData from "@/content/pages/partenaires.json";
+
+export async function getStaticPaths() {
+  const partnersList = (partenairesData as any)?.partnersList ?? [];
+  return partnersList
+    .filter((p: any) => typeof p?.slug === "string" && p.slug.length > 0)
+    .map((p: any) => ({ params: { slug: p.slug } }));
+}
+
+const slug = Astro.params.slug;
+const partnersList = (partenairesData as any)?.partnersList ?? [];
+const partner = partnersList.find((p: any) => p?.slug === slug);
+
+if (!partner) {
+  return Astro.redirect("/404");
+}
+
+const title = partner?.name || "Partenaire";
+const description = partner?.descriptionFr || "";
+const websiteUrl = partner?.websiteUrl || "";
+const logo = partner?.logo || "";
+---
+
+<Layout title={title}>
+  <div class="site-container mx-auto px-4 mt-10">
+    <PageHeader title={title} description={description || "Partenaire"} />
+
+    <div class="inner-container mx-auto">
+      <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row items-start gap-6">
+          <div class="w-full sm:w-72 rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5">
+            {logo ? (
+              <OptimizedImg
+                src={logo}
+                alt={title}
+                width={512}
+                height={256}
+                class="mx-auto h-24 w-auto object-contain"
+                loading="eager"
+                sizes="(max-width: 640px) 100vw, 288px"
+                fit="contain"
+                quality={80}
+              />
+            ) : (
+              <div class="h-24 flex items-center justify-center text-5xl text-neutral-300">
+                <span class="sr-only">Logo</span>
+                ❖
+              </div>
+            )}
+          </div>
+
+          <div class="flex-1">
+            {description && (
+              <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300 whitespace-pre-line">
+                {description}
+              </p>
+            )}
+
+            {websiteUrl && (
+              <div class="mt-4">
+                <a
+                  href={websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                >
+                  Site web
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            )}
+
+            <div class="mt-8">
+              <a href="/partenaires" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary">
+                ← Retour aux partenaires
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+

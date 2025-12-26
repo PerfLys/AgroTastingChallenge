@@ -185,26 +185,54 @@ export default defineConfig({
             fields: [
               {
                 type: "string",
-                name: "title",
-                label: "Titre de la page",
+                name: "titleFr",
+                label: "Titre (FR)",
                 required: true,
                 isTitle: true,
+                description: "Titre affiché sur la page /partenaires.",
               },
               {
                 type: "string",
-                name: "partnersDescription",
-                label: "Description",
-                ui: {
-                  component: "textarea",
-                },
+                name: "titleEn",
+                label: "Title (EN)",
+                required: true,
+                description: "Title shown on the page /en/partenaires.",
               },
               {
                 type: "string",
-                name: "partnersIntro",
-                label: "Intro texte",
+                name: "partnersDescriptionFr",
+                label: "Description (FR)",
                 ui: {
                   component: "textarea",
                 },
+                description: "Courte description sous le titre (FR).",
+              },
+              {
+                type: "string",
+                name: "partnersDescriptionEn",
+                label: "Description (EN)",
+                ui: {
+                  component: "textarea",
+                },
+                description: "Short description under the title (EN).",
+              },
+              {
+                type: "string",
+                name: "partnersIntroFr",
+                label: "Texte d’introduction (FR)",
+                ui: {
+                  component: "textarea",
+                },
+                description: "Texte affiché au-dessus de la grille de partenaires (FR).",
+              },
+              {
+                type: "string",
+                name: "partnersIntroEn",
+                label: "Intro text (EN)",
+                ui: {
+                  component: "textarea",
+                },
+                description: "Text shown above the partners grid (EN).",
               },
               {
                 type: "object",
@@ -213,7 +241,9 @@ export default defineConfig({
                 list: true,
                 ui: {
                   itemProps: (item) => {
-                    return { label: item?.name || 'Partenaire' }
+                    const name = item?.name || "Partenaire";
+                    const slug = item?.slug ? ` (${item.slug})` : "";
+                    return { label: `${name}${slug}` };
                   },
                 },
                 fields: [
@@ -221,16 +251,42 @@ export default defineConfig({
                     type: "string",
                     name: "name",
                     label: "Nom",
+                    required: true,
+                    description: "Nom affiché dans la liste et sur la page partenaire.",
+                  },
+                  {
+                    type: "string",
+                    name: "slug",
+                    label: "Slug",
+                    required: true,
+                    description:
+                      "Identifiant d’URL, ex: 'ruinart' → /partenaires/ruinart (sans espaces, sans accents).",
+                  },
+                  {
+                    type: "string",
+                    name: "websiteUrl",
+                    label: "Site web (optionnel)",
+                    description: "Lien vers le site du partenaire (ouvre un nouvel onglet).",
                   },
                   {
                     type: "image",
                     name: "logo",
-                    label: "Logo",
+                    label: "Logo (optionnel)",
+                    description: "Logo du partenaire (upload/selection via le media manager).",
                   },
                   {
                     type: "string",
-                    name: "url",
-                    label: "Lien",
+                    name: "descriptionFr",
+                    label: "Description (FR)",
+                    ui: { component: "textarea" },
+                    description: "Description affichée sur la page partenaire (FR).",
+                  },
+                  {
+                    type: "string",
+                    name: "descriptionEn",
+                    label: "Description (EN)",
+                    ui: { component: "textarea" },
+                    description: "Description shown on the partner page (EN).",
                   },
                 ],
               },
