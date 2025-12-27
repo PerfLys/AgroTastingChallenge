@@ -12,6 +12,14 @@ const activeMenus = isEn ? menusEn : menus;
 
 <!-- This is an invisible div with relative position so that it takes up the height of the menu (because menu is absolute/fixed) -->
 <div class="relative w-full h-16 sm:h-20 opacity-0 pointer-events-none"></div>
+
+<!-- Mobile Menu Background Overlay (fullscreen) -->
+<div
+  id="mobileMenuBackground"
+  class="fixed inset-0 z-40 hidden w-screen h-screen duration-300 ease-out bg-white/40 backdrop-blur-sm dark:bg-neutral-950/40"
+>
+</div>
+
 <header id="header" class="fixed top-2 sm:top-4 z-50 w-full px-3 sm:px-4 lg:px-6">
   <div id="site-container"
     class="flex items-center justify-between h-14 sm:h-15 site-container mx-auto px-4 sm:px-6 py-2.5 border-transparent border-[0.5px] transition-all duration-300 shadow-[0px_1px_4px_0_rgba(25,33,61,0.06)] rounded-[20px] bg-[#ffffff]/65 border-[#ffffff]/65 dark:border-neutral-600/40 dark:bg-neutral-900/60 backdrop-blur-2xl backdrop-brightness-120 lg:grid lg:grid-cols-[auto,1fr,auto] lg:gap-4"
@@ -21,19 +29,12 @@ const activeMenus = isEn ? menusEn : menus;
       <Logo />
     </div>
 
-    <!-- Mobile Menu Background Overlay -->
-    <div
-      id="mobileMenuBackground"
-      class="fixed inset-0 z-20 hidden w-screen h-screen duration-300 ease-out bg-white/90 backdrop-blur-sm dark:bg-neutral-950/90"
-    >
-    </div>
-
     <!-- Navigation (centered on desktop) -->
     <nav class="relative z-30 w-full text-sm text-neutral-500 dark:text-neutral-400 lg:col-start-2 lg:flex lg:justify-center lg:items-center">
       <!-- Menu Items -->
       <div
         id="menu"
-        class="fixed top-[68px] left-3 right-3 ease-out duration-300 z-40 flex-col items-start justify-start hidden w-auto h-auto text-sm pt-2 pb-2 lg:pt-0 lg:pb-0 lg:static lg:z-auto lg:flex lg:flex-row lg:items-center lg:justify-center"
+        class="fixed top-[68px] left-3 right-3 ease-out duration-300 z-50 flex-col items-start justify-start hidden w-auto h-auto text-sm pt-2 pb-2 lg:pt-0 lg:pb-0 lg:static lg:z-auto lg:flex lg:flex-row lg:items-center lg:justify-center"
       >
         <!-- Mobile Menu Background -->
         <div
@@ -231,10 +232,6 @@ const activeMenus = isEn ? menusEn : menus;
 
   /* Mobile menu background blur effect enhancement */
   @supports (backdrop-filter: blur(12px)) {
-    #mobileMenuBackground {
-      backdrop-filter: blur(12px);
-    }
-
     @media (max-width: 1023px) {
       #menu > div > div {
         backdrop-filter: blur(16px);
