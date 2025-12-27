@@ -79,7 +79,15 @@ export async function generateWebpUrl(src: string, opts: GenerateWebpOptions): P
   const filename = `${hash}-${opts.variant}.webp`;
   const outputFsPath = path.join(GENERATED_DIR_FS, filename);
 
+  // IMPORTANT:
+  // - During `astro build`, creating files here is too late (Astro already snapped `public/`).
+  // - We generate images in `prebuild` (see `scripts/generate-images.mjs`) so they exist
+  //   before `astro build` starts.
+  // - In `astro dev`, we allow on-demand generation for convenience.
+  const canGenerateNow = Boolean(import.meta.env?.DEV);
+
   if (!(await fileExists(outputFsPath))) {
+    if (!canGenerateNow) return src;
     const img = sharp(inputFsPath, { failOn: "none" });
     if (opts.fit === "cover") {
       img.resize(opts.width, opts.height ?? Math.round((opts.width * 9) / 16), {

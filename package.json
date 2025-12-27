@@ -56,6 +56,7 @@
 	"private": true,
 	"scripts": {
 		"astro": "astro",
+		"prebuild": "node scripts/generate-images.mjs",
 		"build": "astro build",
 		"postbuild": "cp -f .assetsignore dist/.assetsignore",
 		"cf-typegen": "wrangler types",

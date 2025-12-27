@@ -85,6 +85,8 @@ async function generateWebpIfMissing(opts: {
   quality: number;
 }): Promise<void> {
   if (await fileExists(opts.outputFsPath)) return;
+  // See scripts/generate-images.mjs: during `astro build` we do not generate here.
+  if (!import.meta.env?.DEV) return;
   const img = sharp(opts.inputFsPath, { failOn: "none" });
   if (opts.resize.mode === "cover") {
     img.resize(opts.resize.width, opts.resize.height, {
