@@ -26,9 +26,6 @@ export default defineConfig({
 		platformProxy: {
 			enabled: true,
 		},
-		// Use Cloudflare's image service in production so we can optimize string-based URLs
-		// like `/uploads/...` (common for CMS/public assets). In `dev`, Astro will still use sharp.
-		imageService: "cloudflare",
 	}),
 	server: {
 		port: 5200,
