@@ -31,55 +31,41 @@ const logo = partner?.logo || "";
 
     <div class="inner-container mx-auto">
       <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
-        <div class="flex flex-col sm:flex-row items-start gap-6">
-          <div class="w-full sm:w-72 rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-5">
+        <div class="flex flex-col items-center gap-6">
+          <div class="w-full max-w-xs rounded-2xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-950/20 p-6 sm:p-8">
             {logo ? (
               <OptimizedImg
                 src={logo}
                 alt={title}
                 width={512}
                 height={256}
-                class="mx-auto h-24 w-auto object-contain"
+                class="mx-auto h-32 w-auto object-contain"
                 loading="eager"
-                sizes="(max-width: 640px) 100vw, 288px"
+                sizes="(max-width: 640px) 100vw, 320px"
                 fit="contain"
                 quality={80}
               />
             ) : (
-              <div class="h-24 flex items-center justify-center text-5xl text-neutral-300">
+              <div class="h-32 flex items-center justify-center text-5xl text-neutral-300">
                 <span class="sr-only">Logo</span>
                 ❖
               </div>
             )}
           </div>
 
-          <div class="flex-1">
-            {description && (
-              <p class="text-sm leading-7 text-neutral-700 dark:text-neutral-300 whitespace-pre-line">
-                {description}
-              </p>
-            )}
-
-            {websiteUrl && (
-              <div class="mt-4">
-                <a
-                  href={websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                >
-                  Site web
-                  <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            )}
-
-            <div class="mt-8">
-              <a href="/partenaires" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary">
-                ← Retour aux partenaires
+          {websiteUrl && (
+            <div>
+              <a
+                href={websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors"
+              >
+                Visiter le site web
+                <span aria-hidden="true">→</span>
               </a>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </div>
