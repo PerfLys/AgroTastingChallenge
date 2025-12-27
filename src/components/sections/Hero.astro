@@ -1,5 +1,6 @@
 ---
 import AnimatedText from "@/components/ui/AnimatedText.astro";
+import { generateWebpUrl } from "@/utils/generatedWebp";
 
 interface Props {
   heroImage?: string;
@@ -20,10 +21,30 @@ const {
   buttonSecondaryText,
   buttonSecondaryUrl,
 } = Astro.props;
+
+// Build-time optimized hero background (static WebP in public/_generated/img)
+const heroBg1x = heroImage
+  ? await generateWebpUrl(heroImage, {
+      width: 1600,
+      height: 900,
+      fit: "cover",
+      quality: 82,
+      variant: "hero-1x",
+    })
+  : null;
+const heroBg2x = heroImage
+  ? await generateWebpUrl(heroImage, {
+      width: 2400,
+      height: 1350,
+      fit: "cover",
+      quality: 82,
+      variant: "hero-2x",
+    })
+  : null;
 ---
 
-{heroImage && (
-  <link rel="preload" as="image" href={heroImage} fetchpriority="high" />
+{heroBg1x && (
+  <link rel="preload" as="image" href={heroBg1x} fetchpriority="high" />
 )}
 
 {heroImage ? (
@@ -32,7 +53,8 @@ const {
     <div class="relative w-full -mt-16 sm:-mt-20">
       {/* Hidden image for SEO and accessibility */}
       <img
-        src={heroImage}
+        src={heroBg1x ?? heroImage}
+        srcset={heroBg2x ? `${heroBg1x} 1x, ${heroBg2x} 2x` : undefined}
         alt={title}
         class="absolute w-px h-px -m-px overflow-hidden whitespace-nowrap border-0 p-0"
         style="clip: rect(0, 0, 0, 0); clip-path: inset(50%);"
@@ -44,7 +66,11 @@ const {
       {/* Background Image */}
       <div
         class="relative w-full min-h-[60vh] md:min-h-[70vh] bg-cover bg-center bg-no-repeat"
-        style={`background-image: url('${heroImage}');`}
+        style={
+          heroBg1x
+            ? `background-image: url('${heroBg1x}'); background-image: -webkit-image-set(url('${heroBg1x}') 1x, url('${heroBg2x ?? heroBg1x}') 2x); background-image: image-set(url('${heroBg1x}') 1x, url('${heroBg2x ?? heroBg1x}') 2x);`
+            : `background-image: url('${heroImage}');`
+        }
         role="img"
         aria-label={title}
       >

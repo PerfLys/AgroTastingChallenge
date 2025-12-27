@@ -4,6 +4,7 @@ import PageHeader from "@/components/elements/PageHeader.astro";
 import SeparatorLine from "@/components/elements/SeparatorLine.astro";
 import MarkdownContent from "@/components/elements/MarkdownContent.astro";
 import PhotoGallery from "@/components/editions/PhotoGallery.astro";
+import OptimizedImg from "@/components/elements/OptimizedImg.astro";
 import deroulementData from "@/content/pages/atc-deroulement.json";
 
 const { titleEn, descriptionEn, bodyEn, coverImage } = deroulementData;
@@ -19,13 +20,18 @@ const photoList = Array.isArray((deroulementData as Partial<{ photos: string[] }
     <div class="inner-container mx-auto">
       <section class="rounded-3xl border border-dashed border-neutral-200 dark:border-neutral-700 bg-white/70 dark:bg-neutral-950/30 backdrop-blur-sm p-6 sm:p-8">
         {coverImage && (
-          <img
+          <OptimizedImg
             src={coverImage}
             alt=""
+            width={1200}
+            height={675}
+            fit="cover"
+            quality={78}
             class="w-full h-auto rounded-2xl border border-neutral-200 dark:border-neutral-700 object-cover aspect-[16/9]"
             loading="eager"
             decoding="async"
             fetchpriority="high"
+            sizes="(max-width: 1024px) 100vw, 1024px"
           />
         )}
 

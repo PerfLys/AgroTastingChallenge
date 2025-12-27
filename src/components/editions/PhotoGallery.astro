@@ -1,7 +1,7 @@
 ---
-import { getImage } from "astro:assets";
 import fs from "node:fs/promises";
 import path from "node:path";
+import crypto from "node:crypto";
 import sharp from "sharp";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
   viewPhotoLabelPrefix?: string;
   prevLabel?: string;
   nextLabel?: string;
+  downloadLabel?: string;
 }
 
 const {
@@ -22,73 +23,151 @@ const {
   viewPhotoLabelPrefix = "Voir la photo",
   prevLabel = "Précédent",
   nextLabel = "Suivant",
+  downloadLabel = "Télécharger",
 } = Astro.props;
 const galleryId = `gallery-${Math.random().toString(36).slice(2)}`;
 
-async function getLocalImageDimensions(src: string): Promise<{ width: number; height: number } | null> {
-  // Only handle site-local absolute paths like `/uploads/...` living in `public/`.
-  if (!src.startsWith("/") || src.startsWith("//") || src.includes("://")) return null;
+function isLocalPublicPath(src: string): boolean {
+  // Handle site-local absolute paths like `/uploads/...` living in `public/`.
+  return src.startsWith("/") && !src.startsWith("//") && !src.includes("://");
+}
+
+async function getLocalFsPath(src: string): Promise<string | null> {
+  if (!isLocalPublicPath(src)) return null;
   const fsPath = path.join(process.cwd(), "public", src);
   try {
     await fs.access(fsPath);
-    const meta = await sharp(fsPath).metadata();
-    if (meta.width && meta.height) return { width: meta.width, height: meta.height };
+    return fsPath;
   } catch {
     // ignore
   }
   return null;
 }
 
-// For CMS/public string URLs (e.g. `/uploads/...`), Astro's Cloudflare image service can still
-// generate optimized variants at runtime in production.
-const sourceDimensions = await Promise.all(photos.map(getLocalImageDimensions));
+const GENERATED_DIR_PUBLIC = "/_generated/photos";
+const GENERATED_DIR_FS = path.join(process.cwd(), "public", "_generated", "photos");
 
-const thumbnailImages = await Promise.all(
-  photos.map((src) =>
-    getImage({
-      src,
-      width: 400,
-      height: 300,
+type GeneratedPhoto = {
+  originalSrc: string;
+  thumbSmallSrc: string; // 1x in gallery
+  thumbLargeSrc: string; // 2x in gallery + placeholder in lightbox
+  lightboxSrc: string;
+  isLocal: boolean;
+};
+
+async function ensureGeneratedDir() {
+  await fs.mkdir(GENERATED_DIR_FS, { recursive: true });
+}
+
+function hashFromStat(stat: { size: number; mtimeMs: number }, src: string): string {
+  return crypto
+    .createHash("sha1")
+    .update(`${src}|${stat.size}|${stat.mtimeMs}`)
+    .digest("hex")
+    .slice(0, 16);
+}
+
+async function fileExists(fsPath: string): Promise<boolean> {
+  try {
+    await fs.access(fsPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function generateWebpIfMissing(opts: {
+  inputFsPath: string;
+  outputFsPath: string;
+  resize:
+    | { mode: "cover"; width: number; height: number }
+    | { mode: "contain"; width: number };
+  quality: number;
+}): Promise<void> {
+  if (await fileExists(opts.outputFsPath)) return;
+  const img = sharp(opts.inputFsPath, { failOn: "none" });
+  if (opts.resize.mode === "cover") {
+    img.resize(opts.resize.width, opts.resize.height, {
       fit: "cover",
-      format: "webp",
-      quality: 55,
-      densities: [1, 2],
-    }),
-  ),
-);
-
-const lightboxImages = await Promise.all(
-  photos.map(async (src, idx) => {
-    const dim = sourceDimensions[idx];
-    if (dim) {
-      const targetWidth = Math.min(1600, dim.width);
-      const targetHeight = Math.round((dim.height * targetWidth) / dim.width);
-      return getImage({
-        src,
-        width: targetWidth,
-        height: targetHeight,
-        fit: "contain",
-        format: "webp",
-        quality: 80,
-      });
-    }
-
-    // Remote/unknown images must provide dimensions; `inferSize` will fetch metadata.
-    return getImage({
-      src,
-      width: 1600,
-      inferSize: true,
-      fit: "contain",
-      format: "webp",
-      quality: 80,
+      position: "attention",
+      withoutEnlargement: true,
     });
-  }),
-);
+  } else {
+    img.resize({
+      width: opts.resize.width,
+      fit: "inside",
+      withoutEnlargement: true,
+    });
+  }
 
-const lightboxPayload = lightboxImages.map((img, idx) => ({
-  // Use the thumbnail as an instant placeholder while the large image loads.
-  thumbSrc: thumbnailImages[idx]?.src,
-  src: img.src,
+  await img.webp({ quality: opts.quality }).toFile(opts.outputFsPath);
+}
+
+async function generateOne(src: string): Promise<GeneratedPhoto> {
+  const inputFsPath = await getLocalFsPath(src);
+  if (!inputFsPath) {
+    // Remote or missing file: keep original src, no build-time processing.
+    return {
+      originalSrc: src,
+      thumbSmallSrc: src,
+      thumbLargeSrc: src,
+      lightboxSrc: src,
+      isLocal: false,
+    };
+  }
+
+  const stat = await fs.stat(inputFsPath);
+  const hash = hashFromStat({ size: stat.size, mtimeMs: stat.mtimeMs }, src);
+
+  const smallName = `${hash}-sm.webp`;
+  const largeName = `${hash}-lg.webp`;
+  const lightboxName = `${hash}-lb.webp`;
+
+  const smallFs = path.join(GENERATED_DIR_FS, smallName);
+  const largeFs = path.join(GENERATED_DIR_FS, largeName);
+  const lightboxFs = path.join(GENERATED_DIR_FS, lightboxName);
+
+  // Two thumbnails:
+  // - "sm": really small for grid (fast)
+  // - "lg": a bit bigger + higher quality (retina + lightbox placeholder)
+  await Promise.all([
+    generateWebpIfMissing({
+      inputFsPath,
+      outputFsPath: smallFs,
+      resize: { mode: "cover", width: 240, height: 180 },
+      quality: 45,
+    }),
+    generateWebpIfMissing({
+      inputFsPath,
+      outputFsPath: largeFs,
+      resize: { mode: "cover", width: 480, height: 360 },
+      quality: 70,
+    }),
+    generateWebpIfMissing({
+      inputFsPath,
+      outputFsPath: lightboxFs,
+      resize: { mode: "contain", width: 1600 },
+      quality: 82,
+    }),
+  ]);
+
+  return {
+    originalSrc: src,
+    thumbSmallSrc: `${GENERATED_DIR_PUBLIC}/${smallName}`,
+    thumbLargeSrc: `${GENERATED_DIR_PUBLIC}/${largeName}`,
+    lightboxSrc: `${GENERATED_DIR_PUBLIC}/${lightboxName}`,
+    isLocal: true,
+  };
+}
+
+await ensureGeneratedDir();
+const generated = await Promise.all(photos.map(generateOne));
+
+const lightboxPayload = generated.map((g) => ({
+  // Placeholder while large WebP loads.
+  thumbSrc: g.thumbLargeSrc,
+  src: g.lightboxSrc,
+  downloadSrc: g.originalSrc,
 }));
 ---
 
@@ -98,7 +177,7 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
       {photos.map((src, idx) => {
         // Load first 6 images eagerly, rest lazily with low priority
         const isAboveFold = idx < 6;
-        const thumb = thumbnailImages[idx];
+        const g = generated[idx];
         return (
           <button
             type="button"
@@ -108,15 +187,15 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
             aria-label={`${viewPhotoLabelPrefix} ${idx + 1}`}
           >
             <img
-              src={thumb?.src ?? src}
-              srcset={thumb?.srcSet?.attribute}
+              src={g?.thumbSmallSrc ?? src}
+              srcset={g ? `${g.thumbSmallSrc} 1x, ${g.thumbLargeSrc} 2x` : undefined}
               alt={`${altPrefix} ${idx + 1}`}
               class="w-full h-full object-cover aspect-[4/3] group-hover:scale-[1.03] transition-transform duration-300"
               loading={isAboveFold ? "eager" : "lazy"}
               decoding="async"
               fetchpriority={isAboveFold ? "high" : "low"}
-              width="400"
-              height="300"
+              width="240"
+              height="180"
               sizes="(max-width: 640px) 50vw, 33vw"
             />
             {/* Subtle loading placeholder */}
@@ -130,6 +209,14 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
       <div class="atc-lightbox-container">
         <div class="atc-lightbox-header">
           <span class="atc-lightbox-counter" data-counter></span>
+          <a class="atc-lightbox-download" data-download-link href="#" download aria-label={downloadLabel}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span class="sr-only">{downloadLabel}</span>
+          </a>
           <button type="button" class="atc-lightbox-close" aria-label={closeLabel}>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -171,6 +258,7 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
         const prevBtn = dialog?.querySelector("[data-nav='prev']");
         const nextBtn = dialog?.querySelector("[data-nav='next']");
         const closeBtn = dialog?.querySelector(".atc-lightbox-close");
+        const downloadLink = dialog?.querySelector("[data-download-link]");
         
         if (!root || !dialog || !dialogImg) return;
 
@@ -215,9 +303,16 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
           const prev = photos[index - 1];
           preload(next?.src);
           preload(prev?.src);
+          preload(next?.thumbSrc);
+          preload(prev?.thumbSrc);
           
           if (counter) {
             counter.textContent = `${index + 1} / ${totalPhotos}`;
+          }
+
+          if (downloadLink) {
+            const href = item.downloadSrc || item.src || item.thumbSrc || "#";
+            downloadLink.setAttribute("href", href);
           }
           
           // Update button states
@@ -298,6 +393,8 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
         // Close on dialog close event
         dialog.addEventListener("close", () => {
           document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+          document.body.style.paddingRight = "";
         });
       })();
     </script>
@@ -337,12 +434,33 @@ const lightboxPayload = lightboxImages.map((img, idx) => ({
     justify-content: space-between;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.75rem;
   }
 
   .atc-lightbox-counter {
     color: rgba(255, 255, 255, 0.9);
     font-size: 0.875rem;
     font-weight: 500;
+  }
+
+  .atc-lightbox-download {
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .atc-lightbox-download:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
   .atc-lightbox-close {

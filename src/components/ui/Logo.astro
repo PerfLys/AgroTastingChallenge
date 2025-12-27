@@ -1,9 +1,22 @@
+---
+import { generateWebpUrl } from "@/utils/generatedWebp";
+
+const logoWebp = await generateWebpUrl("/assets/logo.png", {
+  width: 80,
+  height: 80,
+  fit: "cover",
+  quality: 82,
+  variant: "logo",
+});
+---
+
 <a
   href="/"
   class="h-10 text-base group relative z-30 flex items-center aspect-square"
 >
   <picture>
     <source srcset="/assets/logo.svg" type="image/svg+xml" />
+    <source srcset={logoWebp} type="image/webp" />
     <img
       src="/assets/logo.png"
       alt="Agro Tasting Challenge"

@@ -1,5 +1,6 @@
 ---
 import { ImageIcon } from "@lucide/astro";
+import OptimizedImg from "@/components/elements/OptimizedImg.astro";
 
 interface Props {
   year: number;
@@ -18,9 +19,13 @@ const { year, href, description, subtitle, coverImage, isAboveFold = false } = A
   class="group rounded-2xl border border-primary/20 hover:border-primary/35 bg-bg-secondary/60 dark:bg-bg-secondary/10 overflow-hidden transition-colors"
 >
   {coverImage ? (
-    <img
+    <OptimizedImg
       src={coverImage}
       alt={`Couverture édition ${year}`}
+      width={640}
+      height={360}
+      fit="cover"
+      quality={72}
       class="w-full aspect-[16/9] object-cover group-hover:scale-[1.02] transition-transform duration-300"
       loading={isAboveFold ? "eager" : "lazy"}
       fetchpriority={isAboveFold ? "high" : "low"}

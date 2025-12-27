@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { generateWebpUrl } from "@/utils/generatedWebp";
 
 interface Props {
   src: string;
@@ -13,7 +13,10 @@ interface Props {
   sizes?: string;
   fit?: "cover" | "contain";
   quality?: number;
-  format?: string;
+  /**
+   * Optional: disable 2x generation (useful for huge images / bandwidth).
+   */
+  generate2x?: boolean;
 }
 
 const {
@@ -28,18 +31,33 @@ const {
   sizes,
   fit = "contain",
   quality = 70,
-  format = "webp",
+  generate2x = true,
 } = Astro.props;
+
+const webp1x = await generateWebpUrl(src, {
+  width,
+  height,
+  fit,
+  quality,
+  variant: "1x",
+});
+const webp2x = generate2x
+  ? await generateWebpUrl(src, {
+      width: width * 2,
+      height: height * 2,
+      fit,
+      quality,
+      variant: "2x",
+    })
+  : null;
 ---
 
-<Image
-  src={src}
+<img
+  src={webp1x}
+  srcset={webp2x ? `${webp1x} 1x, ${webp2x} 2x` : undefined}
   alt={alt}
   width={width}
   height={height}
-  fit={fit}
-  quality={quality}
-  format={format}
   class={className}
   loading={loading}
   decoding={decoding}
