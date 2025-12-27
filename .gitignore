@@ -45,9 +45,5 @@ examples/**/env.d.ts
 node_modules
 .env
 
-
-# Public generated files
-public/_generated/
-
 # Wrangler
 .wrangler/
