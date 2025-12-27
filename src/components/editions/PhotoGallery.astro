@@ -46,11 +46,11 @@ async function getLocalFsPath(src: string): Promise<string | null> {
 
 const GENERATED_DIR_PUBLIC = "/_generated/photos";
 const GENERATED_DIR_FS = path.join(process.cwd(), "public", "_generated", "photos");
+const PHOTO_GALLERY_HASH_VERSION = "v2"; // bump to invalidate old variants when generation settings change
 
 type GeneratedPhoto = {
   originalSrc: string;
-  thumbSmallSrc: string; // 1x in gallery
-  thumbLargeSrc: string; // 2x in gallery + placeholder in lightbox
+  thumbSrc: string; // used in gallery AND as lightbox placeholder (ratio-preserving)
   lightboxSrc: string;
   isLocal: boolean;
 };
@@ -62,7 +62,7 @@ async function ensureGeneratedDir() {
 function hashFromStat(stat: { size: number; mtimeMs: number }, src: string): string {
   return crypto
     .createHash("sha1")
-    .update(`${src}|${stat.size}|${stat.mtimeMs}`)
+    .update(`${PHOTO_GALLERY_HASH_VERSION}|${src}|${stat.size}|${stat.mtimeMs}`)
     .digest("hex")
     .slice(0, 16);
 }
@@ -111,8 +111,7 @@ async function generateOne(src: string): Promise<GeneratedPhoto> {
     // Remote or missing file: keep original src, no build-time processing.
     return {
       originalSrc: src,
-      thumbSmallSrc: src,
-      thumbLargeSrc: src,
+      thumbSrc: src,
       lightboxSrc: src,
       isLocal: false,
     };
@@ -122,28 +121,20 @@ async function generateOne(src: string): Promise<GeneratedPhoto> {
   const hash = hashFromStat({ size: stat.size, mtimeMs: stat.mtimeMs }, src);
 
   const smallName = `${hash}-sm.webp`;
-  const largeName = `${hash}-lg.webp`;
   const lightboxName = `${hash}-lb.webp`;
 
   const smallFs = path.join(GENERATED_DIR_FS, smallName);
-  const largeFs = path.join(GENERATED_DIR_FS, largeName);
   const lightboxFs = path.join(GENERATED_DIR_FS, lightboxName);
 
-  // Two thumbnails:
-  // - "sm": really small for grid (fast)
-  // - "lg": a bit bigger + higher quality (retina + lightbox placeholder)
+  // Two variants only:
+  // - "sm": ratio-preserving (contain/inside) used in grid AND as lightbox placeholder
+  // - "lb": large ratio-preserving for lightbox
   await Promise.all([
     generateWebpIfMissing({
       inputFsPath,
       outputFsPath: smallFs,
-      resize: { mode: "cover", width: 240, height: 180 },
-      quality: 45,
-    }),
-    generateWebpIfMissing({
-      inputFsPath,
-      outputFsPath: largeFs,
-      resize: { mode: "cover", width: 480, height: 360 },
-      quality: 70,
+      resize: { mode: "contain", width: 480 },
+      quality: 65,
     }),
     generateWebpIfMissing({
       inputFsPath,
@@ -155,8 +146,7 @@ async function generateOne(src: string): Promise<GeneratedPhoto> {
 
   return {
     originalSrc: src,
-    thumbSmallSrc: `${GENERATED_DIR_PUBLIC}/${smallName}`,
-    thumbLargeSrc: `${GENERATED_DIR_PUBLIC}/${largeName}`,
+    thumbSrc: `${GENERATED_DIR_PUBLIC}/${smallName}`,
     lightboxSrc: `${GENERATED_DIR_PUBLIC}/${lightboxName}`,
     isLocal: true,
   };
@@ -166,8 +156,8 @@ await ensureGeneratedDir();
 const generated = await Promise.all(photos.map(generateOne));
 
 const lightboxPayload = generated.map((g) => ({
-  // Placeholder while large WebP loads.
-  thumbSrc: g.thumbLargeSrc,
+  // Placeholder while large WebP loads (must preserve original aspect ratio).
+  thumbSrc: g.thumbSrc,
   src: g.lightboxSrc,
   downloadSrc: g.originalSrc,
 }));
@@ -189,8 +179,7 @@ const lightboxPayload = generated.map((g) => ({
             aria-label={`${viewPhotoLabelPrefix} ${idx + 1}`}
           >
             <img
-              src={g?.thumbSmallSrc ?? src}
-              srcset={g ? `${g.thumbSmallSrc} 1x, ${g.thumbLargeSrc} 2x` : undefined}
+              src={g?.thumbSrc ?? src}
               alt={`${altPrefix} ${idx + 1}`}
               class="w-full h-full object-cover aspect-[4/3] group-hover:scale-[1.03] transition-transform duration-300"
               loading={isAboveFold ? "eager" : "lazy"}
@@ -241,6 +230,10 @@ const lightboxPayload = generated.map((g) => ({
               loading="eager"
               sizes="100vw"
             />
+            <div class="atc-lightbox-loading" data-loading-indicator aria-hidden="true">
+              <span class="atc-lightbox-spinner" aria-hidden="true"></span>
+              <span class="sr-only">Chargement…</span>
+            </div>
           </div>
           <button type="button" class="atc-lightbox-nav atc-lightbox-next" aria-label={nextLabel} data-nav="next">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -256,6 +249,7 @@ const lightboxPayload = generated.map((g) => ({
         const root = document.querySelector(`[data-gallery-root="${galleryId}"]`);
         const dialog = document.querySelector(`[data-gallery-dialog="${galleryId}"]`);
         const dialogImg = dialog?.querySelector("[data-lightbox-img]");
+        const loadingEl = dialog?.querySelector("[data-loading-indicator]");
         const counter = dialog?.querySelector("[data-counter]");
         const prevBtn = dialog?.querySelector("[data-nav='prev']");
         const nextBtn = dialog?.querySelector("[data-nav='next']");
@@ -266,6 +260,7 @@ const lightboxPayload = generated.map((g) => ({
 
         let currentIndex = 0;
         const totalPhotos = photos.length;
+        let loadToken = 0;
 
         function preload(url) {
           if (!url) return;
@@ -274,31 +269,53 @@ const lightboxPayload = generated.map((g) => ({
           img.src = url;
         }
 
+        function setLoading(isLoading) {
+          if (!loadingEl) return;
+          loadingEl.classList.toggle("is-visible", Boolean(isLoading));
+        }
+
         function updateImage(index) {
           if (index < 0 || index >= totalPhotos) return;
           currentIndex = index;
           const item = photos[index] || {};
-          
-          // Show loading state
-          dialogImg.style.opacity = "0.5";
+          const token = ++loadToken;
+
+          // Always start with the placeholder (already cached from the grid).
+          // Keep it fully visible; we show a spinner instead of dimming.
+          setLoading(Boolean(item.src) && item.src !== item.thumbSrc);
 
           // Instant placeholder (thumbnail)
           if (item.thumbSrc) {
             dialogImg.setAttribute("src", item.thumbSrc);
           }
+          dialogImg.setAttribute("alt", `${altPrefix} ${index + 1}`);
 
-          // Preload large image, then swap in
-          const img = new Image();
-          img.onload = () => {
-            if (item.src) dialogImg.setAttribute("src", item.src);
-            dialogImg.setAttribute("alt", `${altPrefix} ${index + 1}`);
-            dialogImg.style.opacity = "1";
-          };
-          img.onerror = () => {
-            dialogImg.style.opacity = "1";
-            console.warn("Failed to load image:", item.src || item.thumbSrc);
-          };
-          img.src = item.src || item.thumbSrc || "";
+          // Preload large image, then swap in.
+          // IMPORTANT: ignore stale loads if user navigated away while it was loading.
+          if (item.src && item.src !== item.thumbSrc) {
+            const img = new Image();
+            img.decoding = "async";
+            img.onload = async () => {
+              if (token !== loadToken || currentIndex !== index) return;
+              try {
+                // Hint the browser to decode before we swap to reduce flicker.
+                if (typeof img.decode === "function") await img.decode();
+              } catch {
+                // ignore decode failures
+              }
+              if (token !== loadToken || currentIndex !== index) return;
+              dialogImg.setAttribute("src", item.src);
+              setLoading(false);
+            };
+            img.onerror = () => {
+              if (token !== loadToken || currentIndex !== index) return;
+              setLoading(false);
+              console.warn("Failed to load image:", item.src);
+            };
+            img.src = item.src;
+          } else {
+            setLoading(false);
+          }
 
           // Prefetch neighbors for smoother navigation
           const next = photos[index + 1];
@@ -338,6 +355,9 @@ const lightboxPayload = generated.map((g) => ({
         }
 
         function closeLightbox() {
+          // Invalidate any in-flight image load so it can't "win" after close/reopen.
+          loadToken += 1;
+          setLoading(false);
           dialog.close();
           document.body.style.overflow = "";
           document.documentElement.style.overflow = "";
@@ -394,6 +414,8 @@ const lightboxPayload = generated.map((g) => ({
 
         // Close on dialog close event
         dialog.addEventListener("close", () => {
+          loadToken += 1;
+          setLoading(false);
           document.body.style.overflow = "";
           document.documentElement.style.overflow = "";
           document.body.style.paddingRight = "";
@@ -506,6 +528,43 @@ const lightboxPayload = generated.map((g) => ({
     overflow: hidden;
   }
 
+  .atc-lightbox-loading {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    pointer-events: none;
+  }
+
+  .atc-lightbox-loading.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .atc-lightbox-spinner {
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: rgba(255, 255, 255, 0.9);
+    animation: atc-spin 0.9s linear infinite;
+  }
+
+  @keyframes atc-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
   .atc-lightbox-image {
     position: absolute;
     inset: 0;
@@ -517,7 +576,6 @@ const lightboxPayload = generated.map((g) => ({
     object-fit: contain !important;
     border-radius: 0.5rem;
     display: block;
-    transition: opacity 0.2s ease-in-out;
   }
 
   .atc-lightbox-nav {

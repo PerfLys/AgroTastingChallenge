@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
 import sharp from "sharp";
+import os from "node:os";
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
@@ -9,6 +10,13 @@ const contentDir = path.join(root, "src", "content");
 
 const VERBOSE = process.argv.includes("--verbose") || process.env.GENERATE_IMAGES_VERBOSE === "1";
 const QUIET = process.argv.includes("--quiet") || process.env.GENERATE_IMAGES_QUIET === "1";
+const CONCURRENCY =
+  Number(
+    (process.argv.find((a) => a.startsWith("--concurrency="))?.split("=", 2)[1] ??
+      process.env.GENERATE_IMAGES_CONCURRENCY) ||
+      "",
+  ) ||
+  Math.max(1, Math.min(6, (os.cpus?.()?.length ?? 4)));
 
 function log(...args) {
   if (QUIET) return;
@@ -37,6 +45,20 @@ async function walk(dir) {
     if (ent.isDirectory()) out.push(...(await walk(full)));
     else out.push(full);
   }
+  return out;
+}
+
+async function mapLimit(items, limit, worker) {
+  const out = new Array(items.length);
+  let nextIndex = 0;
+  const runners = Array.from({ length: Math.max(1, limit) }, async () => {
+    while (true) {
+      const i = nextIndex++;
+      if (i >= items.length) return;
+      out[i] = await worker(items[i], i);
+    }
+  });
+  await Promise.all(runners);
   return out;
 }
 
@@ -115,8 +137,9 @@ async function generateWebpVariant({ src, stat, width, height, fit, quality, var
 }
 
 // Matches src/components/editions/PhotoGallery.astro hash format for /_generated/photos
+const PHOTO_GALLERY_HASH_VERSION = "v2";
 function photoGalleryHash(src, stat) {
-  return sha1_16(`${src}|${stat.size}|${stat.mtimeMs}`);
+  return sha1_16(`${PHOTO_GALLERY_HASH_VERSION}|${src}|${stat.size}|${stat.mtimeMs}`);
 }
 
 async function generateGalleryVariants({ src, stat }) {
@@ -126,8 +149,8 @@ async function generateGalleryVariants({ src, stat }) {
 
   const hash = photoGalleryHash(src, stat);
   const targets = [
-    { name: `${hash}-sm.webp`, mode: "cover", w: 240, h: 180, q: 45 },
-    { name: `${hash}-lg.webp`, mode: "cover", w: 480, h: 360, q: 70 },
+    // One small ratio-preserving variant used for BOTH grid thumbnails and lightbox placeholder.
+    { name: `${hash}-sm.webp`, mode: "inside", w: 480, h: undefined, q: 65 },
     { name: `${hash}-lb.webp`, mode: "inside", w: 1600, h: undefined, q: 82 },
   ];
 
@@ -170,6 +193,7 @@ async function main() {
   const startedAt = Date.now();
   log(`[generate-images] start (cwd: ${root})`);
   if (VERBOSE) log("[generate-images] verbose logging enabled");
+  if (!QUIET) log(`[generate-images] concurrency: ${CONCURRENCY}`);
 
   // Always generate logo WebP fallback
   const logo = "/assets/logo.png";
@@ -276,14 +300,13 @@ async function main() {
 
   // Generate gallery variants
   log(`[generate-images] generating gallery variants for ${allPhotos.length} photo(s)`);
-  let pidx = 0;
-  for (const src of allPhotos) {
-    pidx += 1;
+  let processed = 0;
+  await mapLimit(allPhotos, CONCURRENCY, async (src) => {
     const inFs = path.join(publicDir, src);
     if (!(await exists(inFs))) {
       missingInputs.add(src);
       vlog(`[generate-images] missing gallery input (skipped): ${src}`);
-      continue;
+      return;
     }
     const stat = await fs.stat(inFs);
     const res = await generateGalleryVariants({ src, stat });
@@ -291,12 +314,13 @@ async function main() {
       if (r === "generated") stats.photos.generated += 1;
       else stats.photos.skipped += 1;
     }
-    if (!QUIET && !VERBOSE && (pidx % 25 === 0 || pidx === allPhotos.length)) {
-      log(`[generate-images] gallery photos processed: ${pidx}/${allPhotos.length}`);
+    processed += 1;
+    if (!QUIET && !VERBOSE && (processed % 25 === 0 || processed === allPhotos.length)) {
+      log(`[generate-images] gallery photos processed: ${processed}/${allPhotos.length}`);
     } else {
-      vlog(`[generate-images] gallery processed ${pidx}/${allPhotos.length}: ${src}`);
+      vlog(`[generate-images] gallery processed ${processed}/${allPhotos.length}: ${src}`);
     }
-  }
+  });
 
   if (missingInputs.size) {
     console.warn(

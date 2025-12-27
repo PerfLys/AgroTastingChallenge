@@ -14,10 +14,10 @@ const activeMenus = isEn ? menusEn : menus;
 <div class="relative w-full h-16 sm:h-20 opacity-0 pointer-events-none"></div>
 <header id="header" class="fixed top-2 sm:top-4 z-50 w-full px-3 sm:px-4 lg:px-6">
   <div id="site-container"
-    class="flex items-center justify-between h-14 sm:h-15 site-container mx-auto px-4 sm:px-6 py-2.5 border-transparent border-[0.5px] transition-all duration-300 shadow-[0px_1px_4px_0_rgba(25,33,61,0.06)] rounded-[20px] bg-[#ffffff]/65 border-[#ffffff]/65 dark:border-neutral-600/40 dark:bg-neutral-900/60 backdrop-blur-2xl backdrop-brightness-120 sm:grid sm:grid-cols-[auto,1fr,auto] sm:gap-4"
+    class="flex items-center justify-between h-14 sm:h-15 site-container mx-auto px-4 sm:px-6 py-2.5 border-transparent border-[0.5px] transition-all duration-300 shadow-[0px_1px_4px_0_rgba(25,33,61,0.06)] rounded-[20px] bg-[#ffffff]/65 border-[#ffffff]/65 dark:border-neutral-600/40 dark:bg-neutral-900/60 backdrop-blur-2xl backdrop-brightness-120 lg:grid lg:grid-cols-[auto,1fr,auto] lg:gap-4"
   >
     <!-- Logo -->
-    <div class="flex-shrink-0 z-50 sm:col-start-1 sm:justify-self-start">
+    <div class="flex-shrink-0 z-50 lg:col-start-1 lg:justify-self-start">
       <Logo />
     </div>
 
@@ -29,15 +29,15 @@ const activeMenus = isEn ? menusEn : menus;
     </div>
 
     <!-- Navigation (centered on desktop) -->
-    <nav class="relative z-30 w-full text-sm text-neutral-500 dark:text-neutral-400 sm:col-start-2 sm:flex sm:justify-center sm:items-center">
+    <nav class="relative z-30 w-full text-sm text-neutral-500 dark:text-neutral-400 lg:col-start-2 lg:flex lg:justify-center lg:items-center">
       <!-- Menu Items -->
       <div
         id="menu"
-        class="fixed top-[68px] left-3 right-3 ease-out duration-300 z-40 flex-col items-start justify-start hidden w-auto h-auto text-sm pt-2 pb-2 sm:pt-0 sm:pb-0 sm:static sm:z-auto sm:flex sm:flex-row sm:items-center sm:justify-center"
+        class="fixed top-[68px] left-3 right-3 ease-out duration-300 z-40 flex-col items-start justify-start hidden w-auto h-auto text-sm pt-2 pb-2 lg:pt-0 lg:pb-0 lg:static lg:z-auto lg:flex lg:flex-row lg:items-center lg:justify-center"
       >
         <!-- Mobile Menu Background -->
         <div
-          class="absolute inset-0 top-0 right-0 block w-full h-full sm:hidden"
+          class="absolute inset-0 top-0 right-0 block w-full h-full lg:hidden"
         >
           <div
             class="relative w-full h-full bg-white/95 border border-dashed border-neutral-300 dark:border-neutral-700 backdrop-blur-md rounded-2xl dark:bg-neutral-950/95 shadow-lg"
@@ -46,7 +46,7 @@ const activeMenus = isEn ? menusEn : menus;
         </div>
 
         <!-- Menu Links -->
-        <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center sm:justify-center w-full sm:w-auto gap-1 sm:gap-0">
+        <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center lg:justify-center w-full lg:w-auto gap-1 lg:gap-0">
           {activeMenus.map((menu) => {
             const hasChildren = Array.isArray(menu.children) && menu.children.length > 0;
             const children = Array.isArray(menu.children) ? menu.children : [];
@@ -55,7 +55,7 @@ const activeMenus = isEn ? menusEn : menus;
               return (
                 <a
                   href={menu.url}
-                  class="relative flex items-center justify-start sm:justify-center w-full sm:w-auto px-3 py-2.5 sm:py-2 sm:px-3 md:px-4 font-medium tracking-wide text-left sm:text-center duration-200 ease-out rounded-lg sm:rounded-none text-neutral-700 dark:text-neutral-200 hover:text-primary sm:hover:bg-transparent dark:hover:text-white dark:hover:bg-neutral-800/50 sm:dark:hover:bg-transparent active:scale-[0.98] sm:active:scale-100 transition-all"
+                  class="relative flex items-center justify-start lg:justify-center w-full lg:w-auto px-3 py-2.5 lg:py-2 lg:px-3 md:px-4 font-medium tracking-wide text-left lg:text-center duration-200 ease-out rounded-lg lg:rounded-none text-neutral-700 dark:text-neutral-200 hover:text-primary lg:hover:bg-transparent dark:hover:text-white dark:hover:bg-neutral-800/50 lg:dark:hover:bg-transparent active:scale-[0.98] lg:active:scale-100 transition-all"
                 >
                   {menu.name}
                 </a>
@@ -65,7 +65,7 @@ const activeMenus = isEn ? menusEn : menus;
             return (
               <>
                 {/* Mobile: collapsible section */}
-                <details class="w-full sm:hidden">
+                <details class="w-full lg:hidden">
                   <summary class="list-none cursor-pointer relative flex items-center justify-between w-full px-3 py-2.5 font-medium tracking-wide rounded-lg text-neutral-700 dark:text-neutral-200 hover:text-primary dark:hover:text-white hover:bg-neutral-100/40 dark:hover:bg-neutral-800/40 transition-all">
                     <span class="flex items-center gap-2">
                       <span>{menu.name}</span>
@@ -87,7 +87,7 @@ const activeMenus = isEn ? menusEn : menus;
                 </details>
 
                 {/* Desktop: hover dropdown */}
-                <div class="relative hidden sm:block group">
+                <div class="relative hidden lg:block group">
                   <a
                     href={menu.url}
                     class="relative inline-flex items-center justify-center px-3 md:px-4 py-2 font-medium tracking-wide text-center duration-200 ease-out rounded-none text-neutral-700 dark:text-neutral-200 hover:text-primary dark:hover:text-white transition-all"
@@ -117,14 +117,14 @@ const activeMenus = isEn ? menusEn : menus;
     </nav>
 
     <!-- Right-side actions -->
-    <div class="relative z-50 flex items-center gap-2 sm:col-start-3 sm:justify-self-end">
+    <div class="relative z-50 flex items-center gap-2 lg:col-start-3 lg:justify-self-end">
       <!-- Desktop: compact language switcher -->
-      <div class="hidden sm:flex items-center">
+      <div class="hidden lg:flex items-center">
         <LanguageSwitcher size="xs" className="mx-1" />
       </div>
 
       <!-- Mobile Menu Toggle Buttons -->
-      <div class="flex items-center gap-2 sm:hidden">
+      <div class="flex items-center gap-2 lg:hidden">
         <LanguageSwitcher size="xs" />
 
         <!-- Hamburger Menu Button -->
@@ -170,14 +170,14 @@ const activeMenus = isEn ? menusEn : menus;
   }
 
   /* Ensure mobile menu doesn't stick to edges */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     #menu {
       max-width: calc(100vw - 24px); /* 12px margin on each side */
     }
   }
 
   /* Mobile menu animation */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     #menu {
       transform: translateY(-10px);
       opacity: 0;
@@ -198,7 +198,7 @@ const activeMenus = isEn ? menusEn : menus;
   }
 
   /* Desktop underline animation */
-  @media (min-width: 640px) {
+  @media (min-width: 1024px) {
     nav a::after {
       content: '';
       position: absolute;
@@ -218,7 +218,7 @@ const activeMenus = isEn ? menusEn : menus;
   }
 
   /* Mobile menu item click feedback */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     nav a:active {
       background-color: var(--color-neutral-100);
     }
@@ -235,7 +235,7 @@ const activeMenus = isEn ? menusEn : menus;
       backdrop-filter: blur(12px);
     }
 
-    @media (max-width: 639px) {
+    @media (max-width: 1023px) {
       #menu > div > div {
         backdrop-filter: blur(16px);
       }
@@ -257,21 +257,21 @@ const activeMenus = isEn ? menusEn : menus;
   }
 
   /* Prevent horizontal scrolling on mobile */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     body {
       overflow-x: hidden;
     }
   }
 
   /* Optimize mobile touch feedback */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     button, a, [role="button"] {
       -webkit-tap-highlight-color: transparent;
     }
   }
 
   /* Menu background on small screens */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     #mobileMenuBackground {
       opacity: 0;
       transition: opacity 0.3s ease-out;
@@ -283,7 +283,7 @@ const activeMenus = isEn ? menusEn : menus;
   }
 
   /* Ensure mobile menu has good shadow */
-  @media (max-width: 639px) {
+  @media (max-width: 1023px) {
     #menu > div > div {
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
                   0 8px 10px -6px rgba(0, 0, 0, 0.05);
