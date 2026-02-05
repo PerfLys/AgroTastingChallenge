@@ -29,6 +29,13 @@
       "logo": "/uploads/vine esposium.png",
       "descriptionFr": "Vinexposium organise, depuis 1981, des salons dédiés au vin et aux spiritueux à travers le monde, dont le Wine Paris. Ces salons réunissent de nombreux acteurs du secteur tels que des vignerons, cavistes, sommeliers et professionnels du monde entier. Ces rendez-vous annuels favorisent les échanges, les rencontres d’affaires et la découverte de nouveaux produits, tout en mettant en lumière les savoir-faire de la filière viticole.\n",
       "descriptionEn": "Since 1981, Vinexposium has been organizing wine and spirits trade shows around the world, including Wine Paris. These events bring together a wide range of industry players, such as winemakers, wine merchants, sommeliers, and professionals from across the globe. The gatherings encourage networking, business meetings, and the discovery of new products, while showcasing the expertise and craftsmanship of the wine sector."
+    },
+    {
+      "name": "BDE AgroParisTech",
+      "slug": "BDE AgroParisTech",
+      "logo": "/uploads/logo bde.png",
+      "descriptionFr": "Le Bureau des Élèves d’AgroParisTech a pour rôle d’accompagner les associations de l’école dans leurs projets permettant la vie de l’école et l’animation du campus. Il soutient les initiatives étudiantes sur les plans logistique, financier et organisationnel. Il permet également la mise en relation des étudiants avec les entreprises, les associations d’anciens élèves ou l’administration.",
+      "descriptionEn": "The AgroParisTech Student Union aims to support the school’s associations in their projects that contribute to student life and campus activities. It provides logistical, financial, and organizational support for student initiatives. It also facilitates connections between students, companies, alumni associations, and the school administration."
     }
   ],
   "_template": "partenaires"
