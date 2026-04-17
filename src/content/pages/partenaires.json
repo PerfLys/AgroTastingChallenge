@@ -36,6 +36,14 @@
       "logo": "/uploads/logo bde.png",
       "descriptionFr": "Le Bureau des Élèves d’AgroParisTech a pour rôle d’accompagner les associations de l’école dans leurs projets permettant la vie de l’école et l’animation du campus. Il soutient les initiatives étudiantes sur les plans logistique, financier et organisationnel. Il permet également la mise en relation des étudiants avec les entreprises, les associations d’anciens élèves ou l’administration.",
       "descriptionEn": "The AgroParisTech Student Union aims to support the school’s associations in their projects that contribute to student life and campus activities. It provides logistical, financial, and organizational support for student initiatives. It also facilitates connections between students, companies, alumni associations, and the school administration."
+    },
+    {
+      "name": "Biscuiterie de Reims",
+      "slug": "Biscuiterie de reims",
+      "websiteUrl": "https://biscuiteriedereims.com/shop/",
+      "logo": "/uploads/biscuiterie de reims.jpeg",
+      "descriptionFr": "La Biscuiterie de Reims fait revivre la tradition des biscuits de la ville, qui remonte au XVe siècle, en y apportant une touche de modernité. Dans ses deux boutiques ainsi que sur son site internet, elle propose une délicieuse gamme de produits artisanaux qui raviront tous les gourmands : madeleines, biscuits secs, macarons ou encore les célèbres palets roses. Le choix de matières premières de qualité et le recours aux circuits courts contribuent ainsi à l’excellence des produits proposés, pour le plus grand plaisir des gourmands.",
+      "descriptionEn": "The Biscuiterie de Reims revives the city’s biscuit-making tradition, which dates back to the 15th century, while adding a modern touch. In its two shops as well as on its website, it offers a delicious range of artisanal products that will delight all food lovers: madeleines, dry biscuits, macarons, and the famous pink biscuits. The careful selection of high-quality raw ingredients and the use of short supply chains contribute to the excellence of its products, for the greatest enjoyment of gourmets.\n"
     }
   ],
   "_template": "partenaires"
