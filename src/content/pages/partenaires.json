@@ -68,6 +68,14 @@
       "logo": "/uploads/lehman.avif",
       "descriptionFr": "La Maison Lehmann est implantée dans la région de Champagne depuis le début des années 1990 et propose des verres de dégustation ainsi que des accessoires dédiés au service des vins et des spiritueux. Elle rend hommage au travail minutieux de la vinification en le prolongeant dans l’expérience de dégustation. Lehmann perpétue une tradition de verrerie artisanale, enrichie par une expertise œnologique, à travers une gamme de verres dont les formes sont conçues pour le vin, le whisky et même les cocktails.",
       "descriptionEn": "The Lehmann House has been established in the Champagne region since the early 1990s and offers tasting glasses as well as accessories dedicated to the service of wines and spirits. It pays tribute to the meticulous work of winemaking by extending it into the tasting experience. Lehmann preserves a tradition of artisanal glassmaking, enriched by oenological expertise, through a range of glasses whose shapes are designed for wine, whisky, and even cocktails.\n"
+    },
+    {
+      "name": "Amble Wine",
+      "slug": "Amble Wine",
+      "websiteUrl": "https://amblewine.com/fr?srsltid=AfmBOoptMLMQaa2VVAMYUEBB1z-44OMwkOxJRb8AWqukl02gBHdwI0fU",
+      "logo": "/uploads/amblewine.webp",
+      "descriptionFr": "Amble Wine a été créé en 2020 par Léa Gatinois avec l’objectif de démocratiser la culture du vin et de la rendre accessible à tous. La marque propose notamment des coffrets ludiques, des livres, des cartes des régions viticoles et des cours en ligne pour découvrir et mieux comprendre l’univers de la vigne et du vin. Les produits sont conçus dans une démarche écologique : ils sont imprimés en France sur du papier 100 % recyclé. ",
+      "descriptionEn": "Amble Wine was founded in 2020 by Léa Gatinois with the aim of democratizing wine culture and making it accessible to everyone. The brand offers a range of engaging products, including educational kits, books, maps of wine regions, and online courses to help people discover and better understand the world of vineyards and wine. The products are designed with an eco-friendly approach: they are printed in France on 100% recycled paper.\n"
     }
   ],
   "_template": "partenaires"
