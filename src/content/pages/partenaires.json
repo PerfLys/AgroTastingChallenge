@@ -76,6 +76,14 @@
       "logo": "/uploads/amblewine.webp",
       "descriptionFr": "Amble Wine a été créé en 2020 par Léa Gatinois avec l’objectif de démocratiser la culture du vin et de la rendre accessible à tous. La marque propose notamment des coffrets ludiques, des livres, des cartes des régions viticoles et des cours en ligne pour découvrir et mieux comprendre l’univers de la vigne et du vin. Les produits sont conçus dans une démarche écologique : ils sont imprimés en France sur du papier 100 % recyclé. ",
       "descriptionEn": "Amble Wine was founded in 2020 by Léa Gatinois with the aim of democratizing wine culture and making it accessible to everyone. The brand offers a range of engaging products, including educational kits, books, maps of wine regions, and online courses to help people discover and better understand the world of vineyards and wine. The products are designed with an eco-friendly approach: they are printed in France on 100% recycled paper.\n"
+    },
+    {
+      "name": "Le nez du Vin",
+      "slug": "Le nez du Vin",
+      "websiteUrl": "https://www.lenez.com/",
+      "logo": "/uploads/le-nez-Logo_wine.jpg",
+      "descriptionFr": "Le Nez du Vin est un ouvrage d’odeurs créé par Jean Lenoir il y a quarante ans. Il propose des coffrets qui répertorient de nombreux arômes que l’on peut rencontrer dans une bouteille de vin, afin de développer l’olfaction, sens essentiel de la dégustation. Les coffrets existent en plusieurs formats et s’accompagnent de cartes ainsi que d’explications géographiques pour progresser en œnologie. Ces coffrets sont devenus une référence pour les professionnels du vin comme outil de travail, et séduisent aussi les amateurs qui souhaitent développer leur mémoire olfactive de manière ludique.\n",
+      "descriptionEn": "Le Nez du Vin is a collection of aroma kits created by Jean Lenoir forty years ago. It offers sets that catalogue many of the aromas one can encounter in a bottle of wine, helping to develop the sense of smell—an essential aspect of wine tasting. The kits are available in various formats and come with cards as well as geographical explanations to support learning in oenology. These sets have become a reference for wine professionals as a working tool, while also appealing to enthusiasts who wish to develop their olfactory memory in an engaging way."
     }
   ],
   "_template": "partenaires"
