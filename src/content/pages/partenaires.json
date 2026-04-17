@@ -60,6 +60,14 @@
       "logo": "/uploads/coravin.png",
       "descriptionFr": "Coravin a été fondée il y a plus de dix ans avec une idée révolutionnaire : un dispositif ingénieux de préservation du vin, devenu une référence mondiale pour le service du vin au verre et l’authentification des grands crus.\nCoravin propose des systèmes innovants de service du vin au verre qui permettent de servir le vin sans jamais retirer le bouchon. Le vin reste ainsi parfaitement préservé et peut être dégusté de nouveau, même plusieurs années plus tard. Ces solutions sont conçues aussi bien pour les passionnés de vin que pour les professionnels.",
       "descriptionEn": "Coravin was founded more than ten years ago with a revolutionary idea: an ingenious wine preservation device that has become a global reference for wine-by-the-glass service and the authentication of fine wines.\nCoravin offers innovative wine-by-the-glass systems that allow wine to be poured without ever removing the cork. The wine therefore remains perfectly preserved and can be enjoyed again, even several years later. These solutions are designed for both passionate wine enthusiasts and wine professionals."
+    },
+    {
+      "name": "Lehmann",
+      "slug": "Lehmann",
+      "websiteUrl": "https://www.lehmann-sa.com/?srsltid=AfmBOoq_ryzIgezk3twetQiBl5psoaiJWTuQvkRQ3MtiQ5AWhyQXhJI-",
+      "logo": "/uploads/lehman.avif",
+      "descriptionFr": "La Maison Lehmann est implantée dans la région de Champagne depuis le début des années 1990 et propose des verres de dégustation ainsi que des accessoires dédiés au service des vins et des spiritueux. Elle rend hommage au travail minutieux de la vinification en le prolongeant dans l’expérience de dégustation. Lehmann perpétue une tradition de verrerie artisanale, enrichie par une expertise œnologique, à travers une gamme de verres dont les formes sont conçues pour le vin, le whisky et même les cocktails.",
+      "descriptionEn": "The Lehmann House has been established in the Champagne region since the early 1990s and offers tasting glasses as well as accessories dedicated to the service of wines and spirits. It pays tribute to the meticulous work of winemaking by extending it into the tasting experience. Lehmann preserves a tradition of artisanal glassmaking, enriched by oenological expertise, through a range of glasses whose shapes are designed for wine, whisky, and even cocktails.\n"
     }
   ],
   "_template": "partenaires"
