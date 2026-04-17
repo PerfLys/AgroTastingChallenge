@@ -52,6 +52,14 @@
       "logo": "/uploads/pulltex.jpg",
       "descriptionFr": "Pulltex est une entreprise familiale créée en 1985, à l’origine sous le nom de TEX. L’entreprise a mis au point le premier tire-bouchon à double levier articulé, aujourd’hui majoritairement utilisé par les professionnels de la restauration. Toujours en quête d’innovation, Pulltex s’est imposée comme la marque la plus importante du marché pour la vente d’accessoires pour le vin, tels que des refroidisseurs, des bouchons et principalement des tire-bouchons. Pulltex propose des accessoires permettant de sublimer chaque dégustation. Engagée dans une démarche responsable, l’entreprise privilégie des fournisseurs locaux et utilise des emballages 100 % recyclés et en carton.\n",
       "descriptionEn": "Pulltex is a family-owned company founded in 1985, originally under the name TEX. The company developed the first double-lever corkscrew, which is now widely used by professionals in the restaurant industry. Always striving for innovation, Pulltex has established itself as the leading brand in the wine accessories market, offering products such as wine coolers, stoppers, and especially corkscrews. Pulltex designs accessories that enhance every tasting experience. Committed to a responsible approach, the company works with local suppliers and uses 100% recycled cardboard packaging."
+    },
+    {
+      "name": "Coravin",
+      "slug": "Coravin",
+      "websiteUrl": "https://www.coravin.fr/",
+      "logo": "/uploads/coravin.png",
+      "descriptionFr": "Coravin a été fondée il y a plus de dix ans avec une idée révolutionnaire : un dispositif ingénieux de préservation du vin, devenu une référence mondiale pour le service du vin au verre et l’authentification des grands crus.\nCoravin propose des systèmes innovants de service du vin au verre qui permettent de servir le vin sans jamais retirer le bouchon. Le vin reste ainsi parfaitement préservé et peut être dégusté de nouveau, même plusieurs années plus tard. Ces solutions sont conçues aussi bien pour les passionnés de vin que pour les professionnels.",
+      "descriptionEn": "Coravin was founded more than ten years ago with a revolutionary idea: an ingenious wine preservation device that has become a global reference for wine-by-the-glass service and the authentication of fine wines.\nCoravin offers innovative wine-by-the-glass systems that allow wine to be poured without ever removing the cork. The wine therefore remains perfectly preserved and can be enjoyed again, even several years later. These solutions are designed for both passionate wine enthusiasts and wine professionals."
     }
   ],
   "_template": "partenaires"
